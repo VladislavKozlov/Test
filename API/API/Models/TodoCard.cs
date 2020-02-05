@@ -1,13 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-/*
- * 
- * @author Vladislav Kozlov <k2v.akosa@gmail.com>
-*/
+
 namespace API.Models
 {
-    //[Table("Tasks")]
     public class TodoCard
     {
         [Key]

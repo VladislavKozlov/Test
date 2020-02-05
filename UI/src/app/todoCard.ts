@@ -1,7 +1,8 @@
 
 
 export class TodoCard {
+  id: number;
   taskName: string;
   description: string;
-  taskType: string;
+  status: number;
 }

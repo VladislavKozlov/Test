@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-/*
- * 
- * @author Vladislav Kozlov <k2v.akosa@gmail.com>
-*/
+
 namespace API
 {
     public class Program

@@ -1,15 +1,11 @@
-﻿using API.Enums;
-using API.Models;
+﻿using API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-/*
- * 
- * @author Vladislav Kozlov <k2v.akosa@gmail.com>
-*/
+
 namespace API.Controllers
 {
     [Route("api/[controller]")]
@@ -43,45 +39,20 @@ namespace API.Controllers
         public JsonResult GetAllCards()
         {
             var cards = _db.Tasks.ToList();
-            List<TodoCard> cardsTodo = new List<TodoCard>();
-            List<TodoCard> cardsInProgress = new List<TodoCard>();
-            List<TodoCard> cardsDone = new List<TodoCard>();
+            List<TodoCard> cardsAllStatus = new List<TodoCard>();
             foreach (var card in cards)
             {
-                if (card.Status == (int)TaskType.Todo)
-                {
-                    TodoCard cardTodo = new TodoCard();
-                    cardTodo.Id = card.Id;
-                    cardTodo.TaskName = card.TaskName;
-                    cardTodo.Description = card.Description;
-                    cardTodo.Status = card.Status;
-                    cardsTodo.Add(cardTodo);
-                }
-                if (card.Status == (int)TaskType.InProgress)
-                {
-                    TodoCard cardInProgress = new TodoCard();
-                    cardInProgress.Id = card.Id;
-                    cardInProgress.TaskName = card.TaskName;
-                    cardInProgress.Description = card.Description;
-                    cardInProgress.Status = card.Status;
-                    cardsInProgress.Add(cardInProgress);
-                }
-                if (card.Status == (int)TaskType.Done)
-                {
-                    TodoCard cardDone = new TodoCard();
-                    cardDone.Id = card.Id;
-                    cardDone.TaskName = card.TaskName;
-                    cardDone.Description = card.Description;
-                    cardDone.Status = card.Status;
-                    cardsDone.Add(cardDone);
-                }
+                TodoCard todoCard = new TodoCard();
+                todoCard.Id = card.Id;
+                todoCard.TaskName = card.TaskName;
+                todoCard.Description = card.Description;
+                todoCard.Status = card.Status;
+                cardsAllStatus.Add(todoCard);
             }
 
             return Json(new
             {
-                cardsTodo,
-                cardsInProgress,
-                cardsDone
+                cardsAllStatus
             });
         }
 

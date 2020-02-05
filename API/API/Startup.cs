@@ -5,10 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-/*
- * 
- * @author Vladislav Kozlov <k2v.akosa@gmail.com>
-*/
+
 namespace API
 {
     public class Startup
