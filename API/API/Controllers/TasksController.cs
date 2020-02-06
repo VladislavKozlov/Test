@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 
@@ -38,22 +37,9 @@ namespace API.Controllers
         [HttpGet]
         public JsonResult GetAllCards()
         {
-            var cards = _db.Tasks.ToList();
-            List<TodoCard> cardsAllStatus = new List<TodoCard>();
-            foreach (var card in cards)
-            {
-                TodoCard todoCard = new TodoCard();
-                todoCard.Id = card.Id;
-                todoCard.TaskName = card.TaskName;
-                todoCard.Description = card.Description;
-                todoCard.Status = card.Status;
-                cardsAllStatus.Add(todoCard);
-            }
-
-            return Json(new
-            {
-                cardsAllStatus
-            });
+            var cards = _db.Tasks.OrderByDescending(p => p.Id).ToList();
+            Cards cardsList = new Cards { TodoCards = cards };
+            return Json(cardsList);
         }
 
         // POST api/tasks

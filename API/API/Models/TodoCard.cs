@@ -20,5 +20,17 @@ namespace API.Models
 
         [Required]
         public int Status { get; set; }
+
+        public TodoCard() { }
+
+        public TodoCard(int id, string taskName, string description, int status)
+        {
+
+            Id = id;
+            TaskName = taskName;
+            Description = description;
+            Status = status;
+        }
+
     }
 }

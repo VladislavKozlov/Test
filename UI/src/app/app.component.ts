@@ -16,12 +16,14 @@ export class AppComponent implements OnInit {
 
   title = 'Todo UI';
 
+  //cardsAll: Array<TodoCard>;
   cardsTodo: Array<TodoCard>;
   cardsInProgress: Array<TodoCard>;
   cardsDone: Array<TodoCard>;
   todoCount: number;
   inProgressCount: number;
   doneCount: number;
+  //status: number;
 
 
   constructor(private todoCardService: TodoCardService) { }
@@ -33,22 +35,27 @@ export class AppComponent implements OnInit {
       this.todoCount = 0;
       this.inProgressCount = 0;
       this.doneCount = 0;
+      //this.cardsAll = new Array<TodoCard>();
       this.cardsTodo = new Array<TodoCard>();
       this.cardsInProgress = new Array<TodoCard>();
       this.cardsDone = new Array<TodoCard>();
 
-      for (var i in data.cardsAllStatus) {
-        if (data.cardsAllStatus[i].status == 0) {
-          this.cardsTodo[this.todoCount] = data.cardsAllStatus[i];
+      for (var i in data.todoCards) {
+        //if (data.todoCards[i].status == 0) {
+          //this.cardsAll[i] = data.todoCards[i];
+          //console.log(this.cardsAll[i]);
+        //}
+        if (data.todoCards[i].status == 0) {
+          this.cardsTodo[this.todoCount] = data.todoCards[i];
           this.todoCount++;
-          //console.log(this.cardsTodo[i]);
+          console.log(this.cardsTodo[i]);
         }
-        if (data.cardsAllStatus[i].status == 1) {
-          this.cardsInProgress[this.inProgressCount] = data.cardsAllStatus[i];
+        if (data.todoCards[i].status == 1) {
+          this.cardsInProgress[this.inProgressCount] = data.todoCards[i];
           this.inProgressCount++;
         }
-        if (data.cardsAllStatus[i].status == 2) {
-          this.cardsDone[this.doneCount] = data.cardsAllStatus[i];
+        if (data.todoCards[i].status == 2) {
+          this.cardsDone[this.doneCount] = data.todoCards[i];
           this.doneCount++;
         }
       }
