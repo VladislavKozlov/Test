@@ -16,56 +16,23 @@ export class AppComponent implements OnInit {
 
   title = 'Todo UI';
 
-  //cardsAll: Array<TodoCard>;
+  cardsAll: Array<TodoCard>;
   cardsTodo: Array<TodoCard>;
   cardsInProgress: Array<TodoCard>;
   cardsDone: Array<TodoCard>;
-  todoCount: number;
-  inProgressCount: number;
-  doneCount: number;
-  //status: number;
-
 
   constructor(private todoCardService: TodoCardService) { }
 
   ngOnInit() {
     this.todoCardService.getAllCards().subscribe((data: Array<TodoCard>) => {
       console.log(data);
+      this.cardsAll = data;
+      console.log(this.cardsAll);
 
-      this.todoCount = 0;
-      this.inProgressCount = 0;
-      this.doneCount = 0;
-      //this.cardsAll = new Array<TodoCard>();
-      this.cardsTodo = new Array<TodoCard>();
-      this.cardsInProgress = new Array<TodoCard>();
-      this.cardsDone = new Array<TodoCard>();
-
-      for (var i in data.todoCards) {
-        //if (data.todoCards[i].status == 0) {
-          //this.cardsAll[i] = data.todoCards[i];
-          //console.log(this.cardsAll[i]);
-        //}
-        if (data.todoCards[i].status == 0) {
-          this.cardsTodo[this.todoCount] = data.todoCards[i];
-          this.todoCount++;
-          console.log(this.cardsTodo[i]);
-        }
-        if (data.todoCards[i].status == 1) {
-          this.cardsInProgress[this.inProgressCount] = data.todoCards[i];
-          this.inProgressCount++;
-        }
-        if (data.todoCards[i].status == 2) {
-          this.cardsDone[this.doneCount] = data.todoCards[i];
-          this.doneCount++;
-        }
-      }
+      this.cardsTodo = this.cardsAll.filter(x => x.status === 0);
+      this.cardsInProgress = this.cardsAll.filter(x => x.status === 1);
+      this.cardsDone = this.cardsAll.filter(x => x.status === 2);
     },
       error => console.error(error));
   }
-
-  //public constructor(private dragulaService: DragulaService) {
-  //dragulaService.createGroup("Spill", {
-  //removeOnSpill: true
-  //});
-
 }

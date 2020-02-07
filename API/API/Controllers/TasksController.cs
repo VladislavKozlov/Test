@@ -37,9 +37,8 @@ namespace API.Controllers
         [HttpGet]
         public JsonResult GetAllCards()
         {
-            var cards = _db.Tasks.OrderByDescending(p => p.Id).ToList();
-            Cards cardsList = new Cards { TodoCards = cards };
-            return Json(cardsList);
+            var cards = _db.Tasks.ToList();
+            return Json(cards);
         }
 
         // POST api/tasks
