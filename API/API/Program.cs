@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-
 namespace API
 {
     public class Program

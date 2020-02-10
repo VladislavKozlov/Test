@@ -1,9 +1,6 @@
 ﻿using API.Models;
+using API.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-
 
 namespace API.Controllers
 {
@@ -11,79 +8,44 @@ namespace API.Controllers
     [ApiController]
     public class TasksController : Controller
     {
-        private readonly TodoDbContext _db;
+        private readonly ITaskService _taskService;
 
-        public TasksController(TodoDbContext todoDbContext)
+        public TasksController(ITaskService taskService)
         {
-            _db = todoDbContext;
+            _taskService = taskService;
         }
 
-        // GET api/tasks/5
         [HttpGet("{id}")]
         public JsonResult Get(int id)
         {
-            var todoCard = _db.Tasks.SingleOrDefault(a => a.Id == id);
-            if (todoCard == null)
-            {
-                return null;
-            }
-            return Json(new
-            {
-                todoCard
-            });
+            var сard = _taskService.Get(id);
+            return Json(сard);
         }
 
-        // GET api/tasks
         [HttpGet]
         public JsonResult GetAllCards()
         {
-            var cards = _db.Tasks.ToList();
+            var cards = _taskService.GetTasks();
             return Json(cards);
         }
 
-        // POST api/tasks
         [HttpPost]
         public int Create(TodoCard todoCard)
         {
-            TodoCard todoCardNew = new TodoCard();
-            todoCardNew.TaskName = todoCard.TaskName;
-            todoCardNew.Description = todoCard.Description;
-            todoCardNew.Status = todoCard.Status;
-            _db.Tasks.Add(todoCardNew);
-            _db.SaveChanges();
-
-            return todoCardNew.Id;
+            _taskService.Add(todoCard);
+            return todoCard.Id;
         }
 
-        // PUT api/tasks/5
         [HttpPut("{id}")]
-        public void Update(int id, TodoCard todoCard)
+        public void Update(TodoCard todoCard)
         {
-            if (id != todoCard.Id)
-            {
-                return;
-            }
-            _db.Entry(todoCard).State = EntityState.Modified;
-            try
-            {
-                _db.SaveChanges();
-            }
-            catch (Exception)
-            {
-            }
+            _taskService.Edit(todoCard);
         }
 
-        // DELETE api/tasks/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            var todoCard = _db.Tasks.SingleOrDefault(a => a.Id == id);
-            if (todoCard == null)
-            {
-                return;
-            }
-            _db.Tasks.Remove(todoCard);
-            _db.SaveChanges();
+            _taskService.Remove(id);
         }
     }
 }

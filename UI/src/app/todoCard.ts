@@ -1,5 +1,3 @@
-
-
 export class TodoCard {
   id: number;
   taskName: string;

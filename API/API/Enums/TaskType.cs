@@ -1,5 +1,4 @@
-﻿
-namespace API.Enums
+﻿namespace API.Enums
 {
     public enum TaskType
     {

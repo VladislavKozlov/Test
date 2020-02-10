@@ -1,10 +1,11 @@
 ﻿using API.Models;
+using API.Repositories;
+using API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 
 namespace API
 {
@@ -20,6 +21,9 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TodoDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<ITodoDbContext, TodoDbContext>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ITaskService, TaskService>();
             services.AddCors();
             services.AddMvc();
         }

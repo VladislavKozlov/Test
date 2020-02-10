@@ -5,7 +5,6 @@ import { HttpClientModule }   from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { DragulaModule } from 'ng2-dragula';
 
-
 @NgModule({
   declarations: [
     AppComponent
