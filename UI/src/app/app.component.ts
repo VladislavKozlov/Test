@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { DragulaService } from 'ng2-dragula';
 import { OnInit } from '@angular/core';
-import { TodoCard } from './todoCard';
+import { TodoCard } from './Models/todoCard';
 import { TodoCardService } from './todo-card.service';
 import { HttpClient } from '@angular/common/http';
 
@@ -25,10 +25,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.todoCardService.getAllCards().subscribe((data: Array<TodoCard>) => {
-      console.log(data);
       this.cardsAll = data;
-      console.log(this.cardsAll);
-
       this.cardsTodo = this.cardsAll.filter(x => x.status === 0);
       this.cardsInProgress = this.cardsAll.filter(x => x.status === 1);
       this.cardsDone = this.cardsAll.filter(x => x.status === 2);
