@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { DragulaService } from 'ng2-dragula';
 import { OnInit } from '@angular/core';
-import { TodoCard } from './Models/todoCard';
+import { TodoCard } from './models/todoCard';
 import { TodoCardService } from './todo-card.service';
 import { HttpClient } from '@angular/common/http';
 
