@@ -1,6 +1,7 @@
 ﻿using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -16,9 +17,13 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public JsonResult Get(int id)
+        public async Task<ActionResult<TodoCard>> Get(int id)
         {
             var сard = _taskService.Get(id);
+            if (сard == null)
+            {
+                return NotFound();
+            }
             return Json(сard);
         }
 

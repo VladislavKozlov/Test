@@ -1,48 +1,50 @@
 ﻿using API.Models;
-using API.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace API.Services
 {
     public class TaskService : ITaskService
     {
-        private ITaskRepository _taskRepository;
+        private ITodoDbContext _dbContext;
 
-        public TaskService(ITaskRepository taskRepository)
+        public TaskService(ITodoDbContext dbContext)
         {
-            _taskRepository = taskRepository;
+            _dbContext = dbContext;
         }
 
-        public TodoCard Get(int id)
+        public async Task<ActionResult<TodoCard>> Get(int id)
         {
-            var todoCard = _taskRepository.Get(id);
-            return todoCard;
+            return await _dbContext.Tasks.FindAsync(id);
         }
 
         public List<TodoCard> GetTasks()
         {
-            var tasks = _taskRepository.GetTasks();
-            return tasks;
+            return _dbContext.Tasks.ToList();
         }
 
         public void Add(TodoCard todoCard)
         {
-            _taskRepository.Add(todoCard);
+            _dbContext.Tasks.Add(todoCard);
+            _dbContext.SaveChanges();
         }
 
-        public void Edit(TodoCard todoCard)
+        public async void Edit(TodoCard todoCard)
         {
-            TodoCard todoCardToUpdate = _taskRepository.Get(todoCard.Id);
+            TodoCard todoCardToUpdate = await _dbContext.Tasks.FindAsync(todoCard.Id);
             todoCardToUpdate.TaskName = todoCard.TaskName;
             todoCardToUpdate.Description = todoCard.Description;
             todoCardToUpdate.Status = todoCard.Status;
-            _taskRepository.Save();
+            _dbContext.SaveChanges();
         }
 
-        public void Remove(int id)
+        public async void Remove(int id)
         {
-            TodoCard todoCard = _taskRepository.Get(id);
-            _taskRepository.Remove(todoCard);
+            TodoCard todoCard = await _dbContext.Tasks.FindAsync(id);
+            _dbContext.Tasks.Remove(todoCard);
+            _dbContext.SaveChanges();          
         }
     }
 }

@@ -20,7 +20,7 @@ npm-debug.log
 
 
 # API Files
-API/API//bin/*
+API/API/[Bb]in/*
 API/API/obj/*
 API/.vs/*
 

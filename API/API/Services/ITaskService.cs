@@ -1,5 +1,7 @@
 ﻿using API.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace API.Services
 {
@@ -9,6 +11,6 @@ namespace API.Services
         void Add(TodoCard todoCard);
         void Edit(TodoCard todoCard);
         void Remove(int id);
-        TodoCard Get(int id);
+        Task<ActionResult<TodoCard>> Get(int id);
     }
 }
