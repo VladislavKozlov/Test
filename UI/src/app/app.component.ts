@@ -15,7 +15,6 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent implements OnInit {
 
   title = 'Todo UI';
-
   cardsAll: Array<TodoCard>;
   cardsTodo: Array<TodoCard>;
   cardsInProgress: Array<TodoCard>;
