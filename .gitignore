@@ -1,30 +1,7 @@
-# automatically generated artifacts
-target/
-node_modules/
-
-# IntelliJ IDEA project files
-*.iml
-.idea
-
-# Visual Studio Code
-.vscode/
-
-# Apple file system artifacts
-.DS_Store
-
-# bak and log files
-*~
-~*
-npm-debug.log
-
-
-
 # API Files
-API/API/[Bb]in/*
-API/API/obj/*
-API/.vs/*
+bin/
+obj/
+.vs/
 
 # UI Files
-UI/node_modules/*
-UI/package-lock.json
-UI/src/assets/*
+node_modules/
