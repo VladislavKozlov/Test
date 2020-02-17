@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace API.Models
 {
@@ -6,5 +7,6 @@ namespace API.Models
     {
         DbSet<TodoCard> Tasks { get; set; }
         int SaveChanges();
+        Task<int> SaveChangesAsync();
     }
 }

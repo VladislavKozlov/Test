@@ -8,9 +8,9 @@ namespace API.Services
     public interface ITaskService
     {
         List<TodoCard> GetTasks();
-        void Add(TodoCard todoCard);
-        void Edit(TodoCard todoCard);
-        void Remove(int id);
+        Task Add(TodoCard todoCard);
+        Task Edit(TodoCard todoCard);
+        Task Remove(int id);
         Task<TodoCard> Get(int id);
     }
 }
