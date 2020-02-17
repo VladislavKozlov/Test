@@ -15,7 +15,7 @@ namespace API.Services
             _dbContext = dbContext;
         }
 
-        public async Task<ActionResult<TodoCard>> Get(int id)
+        public async Task<TodoCard> Get(int id)
         {
             return await _dbContext.Tasks.FindAsync(id);
         }

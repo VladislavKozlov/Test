@@ -11,6 +11,6 @@ namespace API.Services
         void Add(TodoCard todoCard);
         void Edit(TodoCard todoCard);
         void Remove(int id);
-        Task<ActionResult<TodoCard>> Get(int id);
+        Task<TodoCard> Get(int id);
     }
 }
