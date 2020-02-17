@@ -17,9 +17,9 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TodoCard>> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var сard = _taskService.Get(id);
+            var сard = await _taskService.Get(id);
             if (сard == null)
             {
                 return NotFound();
