@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { TodoCard } from './models/todoCard';
+import { catchError } from 'rxjs/operators';
+import { _throw } from "rxjs/observable/throw";
 
 @Injectable()
 export class TodoCardService {
@@ -9,8 +11,19 @@ export class TodoCardService {
 
   constructor(private http: HttpClient) { }
 
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error('An error occurred:', error.error.message);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    return _throw('Something bad happened; please try again later.');
+  };
+
   getAll() {
-    return this.http.get(this.baseApiUrl);
+    return this.http.get(this.baseApiUrl).pipe(catchError(this.handleError));
   }
 
   get(id: number) {
@@ -19,7 +32,7 @@ export class TodoCardService {
 
   add(todoCard: TodoCard) {
     const body = { taskName: todoCard.taskName, description: todoCard.description };
-    return this.http.post(this.baseApiUrl, body);
+    return this.http.post(this.baseApiUrl, body).pipe(catchError(this.handleError));
   }
 
   remove(id: number) {

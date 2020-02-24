@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { DragulaModule } from 'ng2-dragula';
@@ -19,7 +19,8 @@ import { NgbModalWindow } from '@ng-bootstrap/ng-bootstrap/modal/modal-window';
     BrowserModule,
     DragulaModule.forRoot(),
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   entryComponents: [NgbModalBackdrop, NgbModalWindow],
   providers: [NgbModal, NgbModalStack],

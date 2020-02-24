@@ -3,6 +3,7 @@ import { OnInit } from '@angular/core';
 import { TodoCard } from './models/todoCard';
 import { TodoCardService } from './todo-card.service';
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -28,15 +29,14 @@ export class AppComponent implements OnInit {
   };
 
   @ViewChild("modal") public modal: NgbModalRef;
-  taskName = '';
-  description = '';
   status: number;
   failedTaskName = false;
   failedDescription = false;
   errorMessageTaskName = '';
   errorMessageDescription = '';
   modalClose = false;
-  str: String;
+  taskName = new FormControl('');
+  description = new FormControl('');
 
   constructor(private todoCardService: TodoCardService, private modalService: NgbModal, public activeModal: NgbActiveModal) {
   }
@@ -47,41 +47,39 @@ export class AppComponent implements OnInit {
       this.cardsTodo = this.cardsAll.filter(x => x.status === 0);
       this.cardsInProgress = this.cardsAll.filter(x => x.status === 1);
       this.cardsDone = this.cardsAll.filter(x => x.status === 2);
-    },
-      error => console.error(error));
+    });
   }
 
   addTodoCard() {
-    this.str = new String(this.taskName);
-    if (this.taskName === '') {
+    this.taskName = new FormControl(this.taskName.value, [
+      Validators.required,
+      Validators.minLength(4)
+    ]);
+    this.description = new FormControl(this.description.value, Validators.required);
+    if (this.taskName.valid == false) {
       this.failedTaskName = true;
-      this.errorMessageTaskName = "Title is required.";
-    } else if (this.str.length <= 3 ) {    
-      this.failedTaskName = true;
-      this.errorMessageTaskName = "Title must be at least 4 characters long.";
+      this.errorMessageTaskName = "Title is required or title must be at least 4 characters long.";
     } else {
       this.failedTaskName = false;
     }
-
-    if (this.description === '') {
+    if (this.description.valid == false) {
       this.failedDescription = true;
       this.errorMessageDescription = "Description is required.";
     } else {
       this.failedDescription = false;
     }
-
     if (this.failedTaskName == false && this.failedDescription == false) {
       this.modalClose = true;
     }
-
     if (this.modalClose) {
       this.modal.close();
       this.todoCard = new TodoCard();
-      this.todoCard.taskName = this.taskName;
-      this.todoCard.description = this.description;
+
+      this.todoCard.taskName = this.taskName.value;
+      this.todoCard.description = this.description.value;
+
       this.todoCardService.add(this.todoCard).subscribe(
-        (data: TodoCard) => { this.todoCard = data; this.renderCards(); },
-        error => console.log(error)
+        (data: TodoCard) => { this.todoCard = data; this.renderCards(); }
       );
     }
   }
