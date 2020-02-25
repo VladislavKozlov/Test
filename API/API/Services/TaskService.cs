@@ -1,5 +1,6 @@
 ﻿using API.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ namespace API.Services
 
         public async Task Add(TodoCard todoCard)
         {
+            todoCard.CreateDate = DateTime.Now;
             _dbContext.Tasks.Add(todoCard);
             await _dbContext.SaveChangesAsync();
         }
@@ -37,6 +39,7 @@ namespace API.Services
             todoCardToUpdate.TaskName = todoCard.TaskName;
             todoCardToUpdate.Description = todoCard.Description;
             todoCardToUpdate.Status = todoCard.Status;
+            todoCardToUpdate.CreateDate = todoCard.CreateDate;
             await _dbContext.SaveChangesAsync();
         }
 

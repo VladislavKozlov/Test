@@ -3,11 +3,16 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { TodoCard } from './models/todoCard';
 import { catchError } from 'rxjs/operators';
 import { _throw } from "rxjs/observable/throw";
+import { Observable } from 'rxjs';
+import { Json } from './models/Json';
+import { JsonError } from './models/json-error';
+import { ErrorService } from './error.service';
 
 @Injectable()
 export class TodoCardService {
 
   baseApiUrl: string = "http://localhost:59863/api/tasks";
+  ErrorService: any;
 
   constructor(private http: HttpClient) { }
 
@@ -29,6 +34,11 @@ export class TodoCardService {
   get(id: number) {
     return this.http.get(this.baseApiUrl + '/' + id);
   }
+
+  //add(todoCard: TodoCard): Observable<Json | JsonError> {
+    //const body = { taskName: todoCard.taskName, description: todoCard.description };
+    //return this.http.post<Json | JsonError>(this.baseApiUrl, body).pipe(catchError(this.ErrorService.handleError));
+  //}
 
   add(todoCard: TodoCard) {
     const body = { taskName: todoCard.taskName, description: todoCard.description };

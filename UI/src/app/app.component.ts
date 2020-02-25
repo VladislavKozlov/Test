@@ -4,6 +4,8 @@ import { TodoCard } from './models/todoCard';
 import { TodoCardService } from './todo-card.service';
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, Validators } from '@angular/forms';
+import { Json } from './models/Json';
+import { JsonError } from './models/json-error';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +27,8 @@ export class AppComponent implements OnInit {
     id: 0,
     taskName: '',
     description: '',
-    status: 0
+    status: 0,
+    createDate: ''
   };
 
   @ViewChild("modal") public modal: NgbModalRef;
@@ -74,12 +77,10 @@ export class AppComponent implements OnInit {
     if (this.modalClose) {
       this.modal.close();
       this.todoCard = new TodoCard();
-
       this.todoCard.taskName = this.taskName.value;
       this.todoCard.description = this.description.value;
-
       this.todoCardService.add(this.todoCard).subscribe(
-        (data: TodoCard) => { this.todoCard = data; this.renderCards(); }
+        (data: TodoCard) => { this.todoCard = data; this.renderCards(); }       
       );
     }
   }

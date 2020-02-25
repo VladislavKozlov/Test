@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Models
@@ -19,5 +20,7 @@ namespace API.Models
 
         [Required]
         public int Status { get; set; }
+
+        public DateTime CreateDate { get; set; }
     }
 }
