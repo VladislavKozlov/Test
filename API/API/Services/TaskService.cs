@@ -26,14 +26,16 @@ namespace API.Services
             return _dbContext.Tasks.ToList();
         }
 
-        public async Task Add(TodoCard todoCard)
+        public async Task<int> Add(TodoCard todoCard)
         {
+
             todoCard.CreateDate = DateTime.Now;
             _dbContext.Tasks.Add(todoCard);
             await _dbContext.SaveChangesAsync();
+            return todoCard.Id;
         }
 
-        public async Task Edit(TodoCard todoCard)
+        public async Task<TodoCard> Edit(TodoCard todoCard)
         {
             TodoCard todoCardToUpdate = await _dbContext.Tasks.FirstOrDefaultAsync(p => p.Id == todoCard.Id);
             todoCardToUpdate.TaskName = todoCard.TaskName;
@@ -41,13 +43,20 @@ namespace API.Services
             todoCardToUpdate.Status = todoCard.Status;
             todoCardToUpdate.CreateDate = todoCard.CreateDate;
             await _dbContext.SaveChangesAsync();
+            return await _dbContext.Tasks.FirstOrDefaultAsync(p => p.Id == todoCard.Id);
         }
 
-        public async Task Remove(int id)
+        public async void Remove(int id)
         {
-            TodoCard todoCard = await _dbContext.Tasks.FirstOrDefaultAsync(p => p.Id == id);
-            _dbContext.Tasks.Remove(todoCard);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                TodoCard todoCard = await _dbContext.Tasks.FirstOrDefaultAsync(p => p.Id == id);
+                _dbContext.Tasks.Remove(todoCard);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+            }
         }
     }
-}
+ }

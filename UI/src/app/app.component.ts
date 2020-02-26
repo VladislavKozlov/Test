@@ -4,8 +4,7 @@ import { TodoCard } from './models/todoCard';
 import { TodoCardService } from './todo-card.service';
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, Validators } from '@angular/forms';
-import { Json } from './models/Json';
-import { JsonError } from './models/json-error';
+import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'app-root',
@@ -41,7 +40,8 @@ export class AppComponent implements OnInit {
   taskName = new FormControl('');
   description = new FormControl('');
 
-  constructor(private todoCardService: TodoCardService, private modalService: NgbModal, public activeModal: NgbActiveModal) {
+  constructor(private todoCardService: TodoCardService, private modalService: NgbModal, public activeModal: NgbActiveModal,
+    private confirmationDialogService: ConfirmationDialogService) {
   }
 
   private renderCards() {
@@ -80,16 +80,29 @@ export class AppComponent implements OnInit {
       this.todoCard.taskName = this.taskName.value;
       this.todoCard.description = this.description.value;
       this.todoCardService.add(this.todoCard).subscribe(
-        (data: TodoCard) => { this.todoCard = data; this.renderCards(); }       
+        (data: TodoCard) => { this.todoCard = data; this.renderCards(); }
       );
     }
   }
 
-  removeTodoCard(todoCard: TodoCard) {
-    this.todoCardService.remove(todoCard.id).subscribe(
-      (data: TodoCard) => { this.todoCard = data },
-      error => console.log(error)
-    );
+  public openConfirmationDialog(id: number) {
+    console.log("id = " + id);
+    this.confirmationDialogService.confirm('Please confirm..', 'Do you really want to delete this?')
+      .then((result) => {
+        console.log('User confirmed:', result),
+          this.closeResult = `Closed with ${this.removeTodoCard(id)}`;
+      }
+      ).catch(() => console.log('User dismissed the dialog'));
+  }
+
+  removeTodoCard(id: number) {
+    console.log("id = " + id);
+    if (id != 0) {
+      this.todoCardService.remove(id).subscribe(
+        (data: number) => { id = data; this.renderCards(); },
+        error => console.log(error)
+      );
+    }
   }
 
   ngOnInit() {

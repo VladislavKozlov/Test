@@ -8,12 +8,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalStack } from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
 import { NgbModalBackdrop } from '@ng-bootstrap/ng-bootstrap/modal/modal-backdrop';
 import { NgbModalWindow } from '@ng-bootstrap/ng-bootstrap/modal/modal-window';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NgbModalBackdrop,
-    NgbModalWindow
+    NgbModalWindow,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -22,8 +25,8 @@ import { NgbModalWindow } from '@ng-bootstrap/ng-bootstrap/modal/modal-window';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  entryComponents: [NgbModalBackdrop, NgbModalWindow],
-  providers: [NgbModal, NgbModalStack],
+  entryComponents: [NgbModalBackdrop, NgbModalWindow, ConfirmationDialogComponent],
+  providers: [NgbModal, NgbModalStack, ConfirmationDialogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
