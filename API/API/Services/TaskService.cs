@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Services
@@ -21,9 +20,14 @@ namespace API.Services
             return await _dbContext.Tasks.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public List<TodoCard> GetTasks()
+        //public List<TodoCard> GetTasks()
+        //{
+        //return  _dbContext.Tasks.ToList();
+        //}
+
+        public async Task<List<TodoCard>> GetTasks()
         {
-            return _dbContext.Tasks.ToList();
+            return await _dbContext.Tasks.ToListAsync();
         }
 
         public async Task<int> Add(TodoCard todoCard)
@@ -46,7 +50,7 @@ namespace API.Services
             return await _dbContext.Tasks.FirstOrDefaultAsync(p => p.Id == todoCard.Id);
         }
 
-        public async void Remove(int id)
+        public async Task Remove(int id)
         {
             try
             {
@@ -59,4 +63,4 @@ namespace API.Services
             }
         }
     }
- }
+}

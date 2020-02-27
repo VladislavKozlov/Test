@@ -41,7 +41,7 @@ export class TodoCardService {
   }
 
   update(todoCard: TodoCard) {
-    const body = { taskName: todoCard.taskName, description: todoCard.description, status: todoCard.status };
-    return this.http.put(this.baseApiUrl, body);
+    const body = { id: todoCard.id, taskName: todoCard.taskName, createDate: todoCard.createDate, description: todoCard.description, status: todoCard.status };
+    return this.http.put(this.baseApiUrl, body).pipe(catchError(this.handleError));
   }
 }

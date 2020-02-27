@@ -34,8 +34,11 @@
 						<h5 class="card-title">{{card.taskName}}</h5>
 						<h5 class="card-title">{{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
 						<p class="card-text">{{card.description}}</p>
-						<a href="#" class="btn btn-primary">Edit task</a>
-						<a href="#" class="btn btn-danger" (click)="openConfirmationDialog(card.id)">Delete task</a>
+						<a href="#" class="btn btn-primary"
+							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)">Edit
+							task</a>
+						<a href="#" class="btn btn-danger" (click)="openConfirmationDialog(card.id, content)">Delete
+							task</a>
 					</div>
 				</div>
 			</div>
@@ -52,8 +55,11 @@
 						<h5 class="card-title">{{card.taskName}}</h5>
 						<h5 class="card-title">{{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
 						<p class="card-text">{{card.description}}</p>
-						<a href="#" class="btn btn-primary">Edit task</a>
-						<a href="#" class="btn btn-danger" (click)="openConfirmationDialog(card.id)">Delete task</a>
+						<a href="#" class="btn btn-primary"
+							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)">Edit
+							task</a>
+						<a href="#" class="btn btn-danger" (click)="openConfirmationDialog(card.id, content)">Delete
+							task</a>
 					</div>
 				</div>
 			</div>
@@ -70,8 +76,11 @@
 						<h5 class="card-title">{{card.taskName}}</h5>
 						<h5 class="card-title">{{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
 						<p class="card-text">{{card.description}}</p>
-						<a href="#" class="btn btn-primary">Edit task</a>
-						<a href="#" class="btn btn-danger" (click)="openConfirmationDialog(card.id)">Delete task</a>
+						<a href="#" class="btn btn-primary"
+							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)">Edit
+							task</a>
+						<a href="#" class="btn btn-danger" (click)="openConfirmationDialog(card.id, content)">Delete
+							task</a>
 					</div>
 				</div>
 			</div>
@@ -80,7 +89,7 @@
 </div>
 <ng-template #content bs-modal>
 	<div class="modal-header">
-		<h4 class="modal-title" id="modal-basic-title">Add Task</h4>
+		<h4 class="modal-title" id="modal-basic-title">{{ modalTitle }}</h4>
 		<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -88,30 +97,47 @@
 	<div class="modal-body">
 		<div class="form-group" *ngIf="failedTaskName==false">
 			<label for="taskName" class="col-form-label">Title:</label>
-			<input id="taskName" name="taskName" class="form-control" [formControl]="taskName" type="text">
+			<input id="taskName" name="taskName" class="form-control" [(ngModel)]="taskName" type="text">
 		</div>
 		<div class="form-group" *ngIf="failedTaskName==true">
 			<label for="taskName" class="col-form-label">Title:</label>
-			<input id="taskName" name="taskName" class="form-control is-invalid" [formControl]="taskName" type="text">
+			<input id="taskName" name="taskName" class="form-control is-invalid" [(ngModel)]="taskName" type="text">
 			<div class="invalid-feedback">
 				{{ errorMessageTaskName }}
 			</div>
 		</div>
 		<div class="form-group" *ngIf="failedDescription==false">
 			<label for="description" class="col-form-label">Description:</label>
-			<textarea id="description" name="description" class="form-control" [formControl]="description"></textarea>
+			<textarea id="description" name="description" class="form-control" [(ngModel)]="description"></textarea>
 		</div>
 		<div class="form-group" *ngIf="failedDescription==true">
 			<label for="description" class="col-form-label">Description:</label>
 			<textarea id="description" name="description" class="form-control is-invalid"
-				[formControl]="description"></textarea>
+				[(ngModel)]="description"></textarea>
 			<div class="invalid-feedback">
 				{{ errorMessageDescription }}
 			</div>
 		</div>
+		<div class="form-group" *ngIf="modalTitle == 'Edit Task'">
+			<select class="selectpicker" *ngIf="status==0" data-style="btn-info">
+				<option value="0">To Do</option>
+				<option value="1">In Progress</option>
+				<option value="2">Done</option>
+			</select>
+			<select class="selectpicker" *ngIf="status==1" data-style="btn-info">
+				<option value="1">In Progress</option>
+				<option value="2">Done</option>
+				<option value="0">To Do</option>
+			</select>
+			<select class="selectpicker" *ngIf="status==2" data-style="btn-info">
+				<option value="2">Done</option>
+				<option value="0">To Do</option>
+				<option value="1">In Progress</option>
+			</select>
+		</div>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Close</button>
-		<button type="button" class="btn btn-outline-dark" (click)="addTodoCard()">Save</button>
+		<button type="button" class="btn btn-outline-dark" (click)="prepareAddAndEditTodoCard()">Save</button>
 	</div>
 </ng-template>

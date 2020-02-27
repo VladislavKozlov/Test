@@ -27,10 +27,10 @@ namespace API.Controllers
             return Json(сard);
         }
 
-        [HttpGet]
-        public JsonResult GetAllCards()
+        [HttpGet]        
+        public async Task<IActionResult> GetAllCards() //public JsonResult GetAllCards()
         {
-            var cards = _taskService.GetTasks();
+            var cards = await _taskService.GetTasks();
             return Json(cards);
         }
 
@@ -41,7 +41,7 @@ namespace API.Controllers
             return Json(todoCard.Id);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<IActionResult> Update(TodoCard todoCard)
         {
             await _taskService.Edit(todoCard);
@@ -49,9 +49,9 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _taskService.Remove(id);           
+            await _taskService.Remove(id);
         }
     }
 }

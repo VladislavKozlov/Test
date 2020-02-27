@@ -1,9 +1,8 @@
-import { Component, ViewChild, Output } from '@angular/core';
+import { Component, ViewChild, Output, Input, TemplateRef } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { TodoCard } from './models/todoCard';
 import { TodoCardService } from './todo-card.service';
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormControl, Validators } from '@angular/forms';
 import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
 
 @Component({
@@ -30,21 +29,27 @@ export class AppComponent implements OnInit {
     createDate: ''
   };
 
+  @Input() modalTitle: string = "Add Task";
+
   @ViewChild("modal") public modal: NgbModalRef;
+  @ViewChild('content') editModal: TemplateRef<any>; // Note: TemplateRef
   status: number;
+  statusNew: number = 0;
   failedTaskName = false;
   failedDescription = false;
   errorMessageTaskName = '';
   errorMessageDescription = '';
-  modalClose = false;
-  taskName = new FormControl('');
-  description = new FormControl('');
+  taskName = '';
+  description = '';
+  id: number = 0;
+  createDate: string = '';
+  str: String;
 
   constructor(private todoCardService: TodoCardService, private modalService: NgbModal, public activeModal: NgbActiveModal,
     private confirmationDialogService: ConfirmationDialogService) {
   }
 
-  private renderCards() {
+  public renderCards() {
     this.todoCardService.getAll().subscribe((data: Array<TodoCard>) => {
       this.cardsAll = data;
       this.cardsTodo = this.cardsAll.filter(x => x.status === 0);
@@ -53,39 +58,63 @@ export class AppComponent implements OnInit {
     });
   }
 
-  addTodoCard() {
-    this.taskName = new FormControl(this.taskName.value, [
-      Validators.required,
-      Validators.minLength(4)
-    ]);
-    this.description = new FormControl(this.description.value, Validators.required);
-    if (this.taskName.valid == false) {
+  public validateModal() {
+    var modalIsValid: boolean = false;
+    this.str = new String(this.taskName);
+    if (this.taskName === '') {
       this.failedTaskName = true;
-      this.errorMessageTaskName = "Title is required or title must be at least 4 characters long.";
+      this.errorMessageTaskName = "Title is required.";
+    } else if (this.str.length <= 3) {
+      this.failedTaskName = true;
+      this.errorMessageTaskName = "Title must be at least 4 characters long.";
     } else {
       this.failedTaskName = false;
     }
-    if (this.description.valid == false) {
+    if (this.description === '') {
       this.failedDescription = true;
       this.errorMessageDescription = "Description is required.";
     } else {
       this.failedDescription = false;
     }
     if (this.failedTaskName == false && this.failedDescription == false) {
-      this.modalClose = true;
+      modalIsValid = true;
     }
-    if (this.modalClose) {
-      this.modal.close();
+    return modalIsValid;
+  }
+
+  public prepareAddAndEditTodoCard() {
+
+    if (this.validateModal()) {
       this.todoCard = new TodoCard();
-      this.todoCard.taskName = this.taskName.value;
-      this.todoCard.description = this.description.value;
-      this.todoCardService.add(this.todoCard).subscribe(
-        (data: TodoCard) => { this.todoCard = data; this.renderCards(); }
-      );
+      this.todoCard.id = this.id;
+      this.todoCard.taskName = this.taskName;
+      this.todoCard.createDate = this.createDate;
+      this.todoCard.description = this.description;
+      this.todoCard.status = this.status;
+
+      if (this.id == 0) {
+        this.closeModal();
+        this.addTodoCard();
+      } else {
+        this.closeModal();
+        this.updateTodoCard();
+      }
     }
   }
 
-  public openConfirmationDialog(id: number) {
+  public addTodoCard() {
+    this.todoCardService.add(this.todoCard).subscribe(
+      (data: TodoCard) => { this.todoCard = data; this.renderCards(); }
+    );
+  }
+
+  public updateTodoCard() {
+    this.todoCardService.update(this.todoCard).subscribe(
+      (data: TodoCard) => { this.todoCard = data; this.renderCards(); }
+    );
+  }
+
+  public openConfirmationDialog(id: number, content: any) {
     console.log("id = " + id);
     this.confirmationDialogService.confirm('Please confirm..', 'Do you really want to delete this?')
       .then((result) => {
@@ -95,26 +124,50 @@ export class AppComponent implements OnInit {
       ).catch(() => console.log('User dismissed the dialog'));
   }
 
-  removeTodoCard(id: number) {
+  public removeTodoCard(id: number) {
     console.log("id = " + id);
-    if (id != 0) {
-      this.todoCardService.remove(id).subscribe(
-        (data: number) => { id = data; this.renderCards(); },
-        error => console.log(error)
-      );
-    }
+    this.todoCardService.remove(id).subscribe(
+      (data: number) => { id = data; this.renderCards(); },
+      error => console.log(error)
+    );
+  }
+
+  public editTodoCard(id: number, taskName: string, createDate: string, description: string, status: number) {
+    console.log("id = " + id);
+    console.log("taskName = " + taskName);
+    console.log("description = " + description);
+    this.modalTitle = "Edit Task";
+    this.id = id;
+    this.description = description;
+    this.taskName = taskName;
+    this.createDate = createDate;
+    this.status = status;
+    this.open(this.editModal);
+  }
+
+  public closeModal() {
+    this.modal.close();
+    this.failedTaskName = false;
+    this.failedDescription = false;
+    this.id = 0;
+    this.taskName = '';
+    this.description = '';
+    this.createDate = '';
+    this.modalTitle = "Add Task";
   }
 
   ngOnInit() {
     this.renderCards();
   }
 
-  open(content: any) {
+  public open(content: any) {
     this.modal = this.modalService.open(content);
     this.modal.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.failedDescription = false; this.failedTaskName = false; this.id = 0;
+      this.taskName = ''; this.description = ''; this.createDate = ''; this.modalTitle = "Add Task";
     });
   }
 
