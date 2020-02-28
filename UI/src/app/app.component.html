@@ -118,23 +118,6 @@
 				{{ errorMessageDescription }}
 			</div>
 		</div>
-		<div class="form-group" *ngIf="modalTitle == 'Edit Task'">
-			<select class="selectpicker" *ngIf="status==0" data-style="btn-info">
-				<option value="0">To Do</option>
-				<option value="1">In Progress</option>
-				<option value="2">Done</option>
-			</select>
-			<select class="selectpicker" *ngIf="status==1" data-style="btn-info">
-				<option value="1">In Progress</option>
-				<option value="2">Done</option>
-				<option value="0">To Do</option>
-			</select>
-			<select class="selectpicker" *ngIf="status==2" data-style="btn-info">
-				<option value="2">Done</option>
-				<option value="0">To Do</option>
-				<option value="1">In Progress</option>
-			</select>
-		</div>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Close</button>

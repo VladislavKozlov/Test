@@ -20,11 +20,6 @@ namespace API.Services
             return await _dbContext.Tasks.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        //public List<TodoCard> GetTasks()
-        //{
-        //return  _dbContext.Tasks.ToList();
-        //}
-
         public async Task<List<TodoCard>> GetTasks()
         {
             return await _dbContext.Tasks.ToListAsync();
@@ -32,7 +27,6 @@ namespace API.Services
 
         public async Task<int> Add(TodoCard todoCard)
         {
-
             todoCard.CreateDate = DateTime.Now;
             _dbContext.Tasks.Add(todoCard);
             await _dbContext.SaveChangesAsync();
@@ -52,15 +46,9 @@ namespace API.Services
 
         public async Task Remove(int id)
         {
-            try
-            {
-                TodoCard todoCard = await _dbContext.Tasks.FirstOrDefaultAsync(p => p.Id == id);
-                _dbContext.Tasks.Remove(todoCard);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-            }
+            TodoCard todoCard = await _dbContext.Tasks.FirstOrDefaultAsync(p => p.Id == id);
+            _dbContext.Tasks.Remove(todoCard);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

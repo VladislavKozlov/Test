@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
 
   @ViewChild("modal") public modal: NgbModalRef;
   @ViewChild('content') editModal: TemplateRef<any>; // Note: TemplateRef
-  status: number;
+  status: number = 0;
   statusNew: number = 0;
   failedTaskName = false;
   failedDescription = false;
@@ -44,6 +44,12 @@ export class AppComponent implements OnInit {
   id: number = 0;
   createDate: string = '';
   str: String;
+  selectedLevel: any;
+  dataSelected:Array<Object> = [
+    {value: 0, name: "To Do"},
+    {value: 1, name: "In Progress"},
+    {value: 2, name: "Done"}
+];
 
   constructor(private todoCardService: TodoCardService, private modalService: NgbModal, public activeModal: NgbActiveModal,
     private confirmationDialogService: ConfirmationDialogService) {
@@ -83,7 +89,6 @@ export class AppComponent implements OnInit {
   }
 
   public prepareAddAndEditTodoCard() {
-
     if (this.validateModal()) {
       this.todoCard = new TodoCard();
       this.todoCard.id = this.id;
@@ -153,6 +158,7 @@ export class AppComponent implements OnInit {
     this.taskName = '';
     this.description = '';
     this.createDate = '';
+    this.status = 0;
     this.modalTitle = "Add Task";
   }
 
@@ -166,7 +172,7 @@ export class AppComponent implements OnInit {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      this.failedDescription = false; this.failedTaskName = false; this.id = 0;
+      this.failedDescription = false; this.failedTaskName = false; this.id = 0; this.status = 0;
       this.taskName = ''; this.description = ''; this.createDate = ''; this.modalTitle = "Add Task";
     });
   }

@@ -27,8 +27,8 @@ namespace API.Controllers
             return Json(сard);
         }
 
-        [HttpGet]        
-        public async Task<IActionResult> GetAllCards() //public JsonResult GetAllCards()
+        [HttpGet]
+        public async Task<IActionResult> GetAllCards()
         {
             var cards = await _taskService.GetTasks();
             return Json(cards);
