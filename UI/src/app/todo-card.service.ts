@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { TodoCard } from './models/todoCard';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class TodoCardService {
+  private httpOptions = {
+		headers: new HttpHeaders({
+			'Content-Type': 'application/json'
+		})
+	};
 
   baseApiUrl: string = "http://localhost:59863/api/tasks";
-  ErrorService: any;
 
   constructor(private http: HttpClient) { }
 
@@ -24,24 +28,36 @@ export class TodoCardService {
   };
 
   getAll() {
-    return this.http.get(this.baseApiUrl).pipe(catchError(this.handleError));
+    return this.http
+      .get(this.baseApiUrl)
+      .pipe(catchError(this.handleError));
   }
 
   get(id: number) {
-    return this.http.get(this.baseApiUrl + '/' + id);
+    return this.http
+      .get(this.baseApiUrl + '/' + id)
+      .pipe(catchError(this.handleError));
   }
 
   add(todoCard: TodoCard) {
-    const body = { taskName: todoCard.taskName, description: todoCard.description };
-    return this.http.post(this.baseApiUrl, body).pipe(catchError(this.handleError));
+    return this.http
+      .post(this.baseApiUrl,
+        JSON.stringify(todoCard),
+        this.httpOptions)
+      .pipe(catchError(this.handleError));
   }
 
   remove(id: number) {
-    return this.http.delete(this.baseApiUrl + '/' + id);
+    return this.http
+      .delete(this.baseApiUrl + '/' + id, this.httpOptions)
+      .pipe(catchError(this.handleError));
   }
 
   update(todoCard: TodoCard) {
-    const body = { id: todoCard.id, taskName: todoCard.taskName, createDate: todoCard.createDate, description: todoCard.description, status: todoCard.status };
-    return this.http.put(this.baseApiUrl, body).pipe(catchError(this.handleError));
+    return this.http
+      .put(this.baseApiUrl + '/' + todoCard.id,
+        JSON.stringify(todoCard),
+        this.httpOptions)
+      .pipe(catchError(this.handleError));
   }
 }

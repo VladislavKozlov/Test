@@ -12,7 +12,7 @@ import { TodoCardService } from '../todo-card.service';
 
 export class ArchivetasksComponent implements OnInit {
 
-  title = 'Archive';
+  title = 'Todo UI';
   cardsAll: Array<TodoCard>;
   cardsArchive: Array<TodoCard>;
 

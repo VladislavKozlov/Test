@@ -32,9 +32,9 @@ export class TodolistComponent implements OnInit {
   @Input() modalTitle: string = "Add Task";
 
   @ViewChild("modal") public modal: NgbModalRef;
-  @ViewChild('content') editModal: TemplateRef<any>; // Note: TemplateRef
+  @ViewChild('content') editModal: TemplateRef<any>;
+
   status: number = 0;
-  statusNew: number = 0;
   failedTaskName = false;
   failedDescription = false;
   errorMessageTaskName = '';
@@ -42,8 +42,8 @@ export class TodolistComponent implements OnInit {
   taskName = '';
   description = '';
   id: number = 0;
-  createDate: string = '';
-  str: String;
+  createDate: string;
+  str: string;
 
   constructor(private todoCardService: TodoCardService, private modalService: NgbModal, public activeModal: NgbActiveModal,
     private confirmationDialogService: ConfirmationDialogService) {
@@ -60,7 +60,7 @@ export class TodolistComponent implements OnInit {
 
   public validateModal() {
     var modalIsValid: boolean = false;
-    this.str = new String(this.taskName);
+    this.str = this.taskName;
     if (this.taskName === '') {
       this.failedTaskName = true;
       this.errorMessageTaskName = "Title is required.";
@@ -116,13 +116,19 @@ export class TodolistComponent implements OnInit {
 
   public addTodoCard() {
     this.todoCardService.add(this.todoCard).subscribe(
-      (data: TodoCard) => { this.todoCard = data; this.renderCards(); }
+      (data: TodoCard) => {
+        this.todoCard = data;
+        this.renderCards();
+      }
     );
   }
 
   public updateTodoCard() {
     this.todoCardService.update(this.todoCard).subscribe(
-      (data: TodoCard) => { this.todoCard = data; this.renderCards(); }
+      (data: TodoCard) => {
+        this.todoCard = data;
+        this.renderCards();
+      }
     );
   }
 
@@ -139,7 +145,10 @@ export class TodolistComponent implements OnInit {
   public removeTodoCard(id: number) {
     console.log("id = " + id);
     this.todoCardService.remove(id).subscribe(
-      (data: number) => { id = data; this.renderCards(); },
+      (data: number) => {
+        id = data;
+        this.renderCards();
+      },
       error => console.log(error)
     );
   }
@@ -164,7 +173,7 @@ export class TodolistComponent implements OnInit {
     this.id = 0;
     this.taskName = '';
     this.description = '';
-    this.createDate = '';
+    this.createDate = undefined;
     this.status = 0;
     this.modalTitle = "Add Task";
   }
@@ -185,7 +194,7 @@ export class TodolistComponent implements OnInit {
       this.status = 0;
       this.taskName = '';
       this.description = '';
-      this.createDate = '';
+      this.createDate = undefined;
       this.modalTitle = "Add Task";
     });
   }

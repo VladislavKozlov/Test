@@ -35,23 +35,30 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(TodoCard todoCard)
+        public async Task<IActionResult> Create([FromBody] TodoCard todoCard)
         {
             await _taskService.Add(todoCard);
             return Json(todoCard.Id);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update(TodoCard todoCard)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] TodoCard todoCard)
         {
+            var сard = await _taskService.Get(id);
+            if (сard == null)
+            {
+                return NotFound();
+            }
+            todoCard.Id = id;
             await _taskService.Edit(todoCard);
-            return Json(todoCard);
+            return Json(string.Empty);
         }
 
         [HttpDelete("{id}")]
-        public async Task Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             await _taskService.Remove(id);
+            return Json(string.Empty);
         }
     }
 }

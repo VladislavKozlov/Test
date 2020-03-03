@@ -8,7 +8,7 @@
 		<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 				<li class="nav-item">
-					<a class="nav-link" (click)="open(content)">Add Task</a>
+					<a class="nav-link" (click)="open(content)">Add</a>
 				</li>
 				<li class="nav-item">
 					<a href="/archivetasks" class="nav-link">Archive</a>
@@ -34,18 +34,11 @@
 				</div>
 				<div *ngFor="let card of cardsTodo" class="card border border-dark p-1 m-1">
 					<div class="card-body">
-						<h5 class="card-title">{{card.taskName}}</h5>
-						<h5 class="card-title">{{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
+						<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
 						<p class="card-text">{{card.description}}</p>
-						<button type="button" class="btn btn-primary"
-							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)">Edit
-							task</button>
-						<button type="button" class="btn btn-danger"
-							(click)="openConfirmationDialog(card.id, content)">Delete
-							task</button>
-						<button type="button" class="btn btn-info"
-							(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)">To archive
-						</button>
+						<img src="assets/img/edit.png" (click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)"/>						
+						<img src="assets/img/delete.png" (click)="openConfirmationDialog(card.id, content)"/>
+						<img src="assets/img/archive.png" (click)="addToArchive(card.id, card.taskName, card.createDate, card.description)"/>
 					</div>
 				</div>
 			</div>
@@ -59,18 +52,11 @@
 				</div>
 				<div *ngFor="let card of cardsInProgress" class="card border border-dark p-1 m-1">
 					<div class="card-body">
-						<h5 class="card-title">{{card.taskName}}</h5>
-						<h5 class="card-title">{{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
+						<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
 						<p class="card-text">{{card.description}}</p>
-						<button type="button" class="btn btn-primary"
-							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)">Edit
-							task</button>
-						<button type="button" class="btn btn-danger"
-							(click)="openConfirmationDialog(card.id, content)">Delete
-							task</button>
-						<button type="button" class="btn btn-info"
-							(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)">To archive
-						</button>
+						<img src="assets/img/edit.png" (click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)"/>						
+						<img src="assets/img/delete.png" (click)="openConfirmationDialog(card.id, content)"/>
+						<img src="assets/img/archive.png" (click)="addToArchive(card.id, card.taskName, card.createDate, card.description)"/>
 					</div>
 				</div>
 			</div>
@@ -84,18 +70,11 @@
 				</div>
 				<div *ngFor="let card of cardsDone" class="card border border-dark p-1 m-1">
 					<div class="card-body">
-						<h5 class="card-title">{{card.taskName}}</h5>
-						<h5 class="card-title">{{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
-						<p class="card-text">{{card.description}}</p>
-						<button type="button" class="btn btn-primary"
-							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)">Edit
-							task</button>
-						<button type="button" class="btn btn-danger"
-							(click)="openConfirmationDialog(card.id, content)">Delete
-							task</button>
-						<button type="button" class="btn btn-info"
-							(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)">To archive
-						</button>
+						<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
+						<p class="card-text">{{card.description}}</p>						
+						<img src="assets/img/edit.png" (click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)"/>						
+						<img src="assets/img/delete.png" (click)="openConfirmationDialog(card.id, content)"/>
+						<img src="assets/img/archive.png" (click)="addToArchive(card.id, card.taskName, card.createDate, card.description)"/>
 					</div>
 				</div>
 			</div>
