@@ -36,9 +36,11 @@
 					<div class="card-body">
 						<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
 						<p class="card-text">{{card.description}}</p>
-						<img src="assets/img/edit.png" (click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)"/>						
-						<img src="assets/img/delete.png" (click)="openConfirmationDialog(card.id, content)"/>
-						<img src="assets/img/archive.png" (click)="addToArchive(card.id, card.taskName, card.createDate, card.description)"/>
+						<img src="assets/img/edit.png"
+							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
+						<img src="assets/img/delete.png" (click)="openConfirmationDialog(card.id, content)" />
+						<img src="assets/img/archive.png"
+							(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
 					</div>
 				</div>
 			</div>
@@ -54,9 +56,11 @@
 					<div class="card-body">
 						<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
 						<p class="card-text">{{card.description}}</p>
-						<img src="assets/img/edit.png" (click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)"/>						
-						<img src="assets/img/delete.png" (click)="openConfirmationDialog(card.id, content)"/>
-						<img src="assets/img/archive.png" (click)="addToArchive(card.id, card.taskName, card.createDate, card.description)"/>
+						<img src="assets/img/edit.png"
+							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
+						<img src="assets/img/delete.png" (click)="openConfirmationDialog(card.id, content)" />
+						<img src="assets/img/archive.png"
+							(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
 					</div>
 				</div>
 			</div>
@@ -71,10 +75,12 @@
 				<div *ngFor="let card of cardsDone" class="card border border-dark p-1 m-1">
 					<div class="card-body">
 						<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
-						<p class="card-text">{{card.description}}</p>						
-						<img src="assets/img/edit.png" (click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)"/>						
-						<img src="assets/img/delete.png" (click)="openConfirmationDialog(card.id, content)"/>
-						<img src="assets/img/archive.png" (click)="addToArchive(card.id, card.taskName, card.createDate, card.description)"/>
+						<p class="card-text">{{card.description}}</p>
+						<img src="assets/img/edit.png"
+							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
+						<img src="assets/img/delete.png" (click)="openConfirmationDialog(card.id, content)" />
+						<img src="assets/img/archive.png"
+							(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
 					</div>
 				</div>
 			</div>
@@ -95,7 +101,9 @@
 		</div>
 		<div class="form-group" *ngIf="failedTaskName==true">
 			<label for="taskName" class="col-form-label">Title:</label>
-			<input id="taskName" name="taskName" class="form-control is-invalid" [(ngModel)]="taskName" type="text">
+			<input id="taskName" name="taskName" class="form-control"
+				[class.is-invalid]="removeIsInvalidClassTaskName()" [(ngModel)]="taskName" type="text"
+				(keyup)="valueChangeTaskName()">
 			<div class="invalid-feedback">
 				{{ errorMessageTaskName }}
 			</div>
@@ -106,7 +114,8 @@
 		</div>
 		<div class="form-group" *ngIf="failedDescription==true">
 			<label for="description" class="col-form-label">Description:</label>
-			<textarea id="description" name="description" class="form-control is-invalid"
+			<textarea id="description" name="description" class="form-control"
+				[class.is-invalid]="removeIsInvalidClassDescription()" (keyup)="valueChangeDescription()"
 				[(ngModel)]="description"></textarea>
 			<div class="invalid-feedback">
 				{{ errorMessageDescription }}

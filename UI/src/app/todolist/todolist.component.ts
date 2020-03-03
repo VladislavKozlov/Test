@@ -44,6 +44,8 @@ export class TodolistComponent implements OnInit {
   id: number = 0;
   createDate: string;
   str: string;
+  isInvalidClassTaskName = true;
+  isInvalidClassDescription = true;
 
   constructor(private todoCardService: TodoCardService, private modalService: NgbModal, public activeModal: NgbActiveModal,
     private confirmationDialogService: ConfirmationDialogService) {
@@ -176,10 +178,36 @@ export class TodolistComponent implements OnInit {
     this.createDate = undefined;
     this.status = 0;
     this.modalTitle = "Add Task";
+    this.isInvalidClassTaskName = true;
+    this.isInvalidClassDescription = true;
   }
 
   ngOnInit() {
     this.renderCards();
+  }
+
+  public valueChangeTaskName() {
+    this.isInvalidClassTaskName = false;
+  }
+
+  public removeIsInvalidClassTaskName() {
+    if (this.isInvalidClassTaskName) {
+      return true;
+    } else {
+      return false;
+    }    
+  }
+
+  public valueChangeDescription() {
+    this.isInvalidClassDescription = false;
+  }
+
+  public removeIsInvalidClassDescription() {
+    if (this.isInvalidClassDescription) {
+      return true;
+    } else {
+      return false;
+    }    
   }
 
   public open(content: any) {
@@ -196,6 +224,8 @@ export class TodolistComponent implements OnInit {
       this.description = '';
       this.createDate = undefined;
       this.modalTitle = "Add Task";
+      this.isInvalidClassTaskName = true;
+      this.isInvalidClassDescription = true;
     });
   }
 
