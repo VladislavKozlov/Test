@@ -8,7 +8,7 @@
 		<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 				<li class="nav-item">
-					<a class="nav-link" (click)="open(content)">Add</a>
+					<a class="nav-link cursorPointer" (click)="open(content)">Add</a>
 				</li>
 				<li class="nav-item">
 					<a href="/archivetasks" class="nav-link">Archive</a>
@@ -36,10 +36,11 @@
 					<div class="card-body">
 						<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
 						<p class="card-text">{{card.description}}</p>
-						<img src="assets/img/edit.png"
+						<img src="assets/img/edit.png" class="cursorPointer"
 							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
-						<img src="assets/img/delete.png" (click)="openConfirmationDialog(card.id, content)" />
-						<img src="assets/img/archive.png"
+						<img src="assets/img/delete.png" class="cursorPointer"
+							(click)="openConfirmationDialog(card.id)" />
+						<img src="assets/img/archive.png" class="cursorPointer"
 							(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
 					</div>
 				</div>
@@ -56,10 +57,11 @@
 					<div class="card-body">
 						<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
 						<p class="card-text">{{card.description}}</p>
-						<img src="assets/img/edit.png"
+						<img src="assets/img/edit.png" class="cursorPointer"
 							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
-						<img src="assets/img/delete.png" (click)="openConfirmationDialog(card.id, content)" />
-						<img src="assets/img/archive.png"
+						<img src="assets/img/delete.png" class="cursorPointer"
+							(click)="openConfirmationDialog(card.id)" />
+						<img src="assets/img/archive.png" class="cursorPointer"
 							(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
 					</div>
 				</div>
@@ -76,10 +78,11 @@
 					<div class="card-body">
 						<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
 						<p class="card-text">{{card.description}}</p>
-						<img src="assets/img/edit.png"
+						<img src="assets/img/edit.png" class="cursorPointer"
 							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
-						<img src="assets/img/delete.png" (click)="openConfirmationDialog(card.id, content)" />
-						<img src="assets/img/archive.png"
+						<img src="assets/img/delete.png" class="cursorPointer"
+							(click)="openConfirmationDialog(card.id)" />
+						<img src="assets/img/archive.png" class="cursorPointer"
 							(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
 					</div>
 				</div>
@@ -95,27 +98,18 @@
 		</button>
 	</div>
 	<div class="modal-body">
-		<div class="form-group" *ngIf="failedTaskName==false">
+		<div class="form-group">
 			<label for="taskName" class="col-form-label">Title:</label>
-			<input id="taskName" name="taskName" class="form-control" [(ngModel)]="taskName" type="text">
-		</div>
-		<div class="form-group" *ngIf="failedTaskName==true">
-			<label for="taskName" class="col-form-label">Title:</label>
-			<input id="taskName" name="taskName" class="form-control"
-				[class.is-invalid]="removeIsInvalidClassTaskName()" [(ngModel)]="taskName" type="text"
-				(keyup)="valueChangeTaskName()">
+			<input id="taskName" name="taskName" class="form-control" [class.is-invalid]="isfailedTaskName()"
+				[(ngModel)]="taskName" type="text" (keyup)="valueChangeTaskName()">
 			<div class="invalid-feedback">
 				{{ errorMessageTaskName }}
 			</div>
 		</div>
-		<div class="form-group" *ngIf="failedDescription==false">
-			<label for="description" class="col-form-label">Description:</label>
-			<textarea id="description" name="description" class="form-control" [(ngModel)]="description"></textarea>
-		</div>
-		<div class="form-group" *ngIf="failedDescription==true">
+		<div class="form-group">
 			<label for="description" class="col-form-label">Description:</label>
 			<textarea id="description" name="description" class="form-control"
-				[class.is-invalid]="removeIsInvalidClassDescription()" (keyup)="valueChangeDescription()"
+				[class.is-invalid]="isfailedDescription()" (keyup)="valueChangeDescription()"
 				[(ngModel)]="description"></textarea>
 			<div class="invalid-feedback">
 				{{ errorMessageDescription }}

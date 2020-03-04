@@ -44,8 +44,6 @@ export class TodolistComponent implements OnInit {
   id: number = 0;
   createDate: string;
   str: string;
-  isInvalidClassTaskName = true;
-  isInvalidClassDescription = true;
 
   constructor(private todoCardService: TodoCardService, private modalService: NgbModal, public activeModal: NgbActiveModal,
     private confirmationDialogService: ConfirmationDialogService) {
@@ -104,9 +102,6 @@ export class TodolistComponent implements OnInit {
   }
 
   public addToArchive(id: number, taskName: string, createDate: string, description: string) {
-    console.log("id = " + id);
-    console.log("taskName = " + taskName);
-    console.log("description = " + description);
     this.todoCard = new TodoCard();
     this.todoCard.id = id;
     this.todoCard.taskName = taskName;
@@ -134,7 +129,7 @@ export class TodolistComponent implements OnInit {
     );
   }
 
-  public openConfirmationDialog(id: number, content: any) {
+  public openConfirmationDialog(id: number) {
     console.log("id = " + id);
     this.confirmationDialogService.confirm('Please confirm..', 'Do you really want to delete this?')
       .then((result) => {
@@ -156,9 +151,6 @@ export class TodolistComponent implements OnInit {
   }
 
   public editTodoCard(id: number, taskName: string, createDate: string, description: string, status: number) {
-    console.log("id = " + id);
-    console.log("taskName = " + taskName);
-    console.log("description = " + description);
     this.modalTitle = "Edit Task";
     this.id = id;
     this.description = description;
@@ -178,8 +170,6 @@ export class TodolistComponent implements OnInit {
     this.createDate = undefined;
     this.status = 0;
     this.modalTitle = "Add Task";
-    this.isInvalidClassTaskName = true;
-    this.isInvalidClassDescription = true;
   }
 
   ngOnInit() {
@@ -187,27 +177,27 @@ export class TodolistComponent implements OnInit {
   }
 
   public valueChangeTaskName() {
-    this.isInvalidClassTaskName = false;
+    this.failedTaskName = false;
   }
 
-  public removeIsInvalidClassTaskName() {
-    if (this.isInvalidClassTaskName) {
+  public isfailedTaskName() {
+    if (this.failedTaskName) {
       return true;
     } else {
       return false;
-    }    
+    }
   }
 
   public valueChangeDescription() {
-    this.isInvalidClassDescription = false;
+    this.failedDescription = false;
   }
 
-  public removeIsInvalidClassDescription() {
-    if (this.isInvalidClassDescription) {
+  public isfailedDescription() {
+    if (this.failedDescription) {
       return true;
     } else {
       return false;
-    }    
+    }
   }
 
   public open(content: any) {
@@ -224,8 +214,6 @@ export class TodolistComponent implements OnInit {
       this.description = '';
       this.createDate = undefined;
       this.modalTitle = "Add Task";
-      this.isInvalidClassTaskName = true;
-      this.isInvalidClassDescription = true;
     });
   }
 
