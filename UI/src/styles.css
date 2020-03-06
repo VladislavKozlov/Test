@@ -8,3 +8,10 @@ body, html {
 img.cursorPointer,  a.cursorPointer {
     cursor: pointer;
 }
+
+.buttonContainer {
+    width: 100%;
+    padding-top: 0;
+    margin-top: 0;
+    margin-bottom: 100px;
+}

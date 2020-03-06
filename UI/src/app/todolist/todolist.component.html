@@ -4,14 +4,11 @@
 			aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<a class="navbar-brand">Todo UI</a>
+		<a routerLink="/todolist" class="navbar-brand">Todo UI</a>
 		<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 				<li class="nav-item">
-					<a class="nav-link cursorPointer" (click)="open(content)">Add</a>
-				</li>
-				<li class="nav-item">
-					<a href="/archivetasks" class="nav-link">Archive</a>
+					<a routerLink="/archivetasks" class="nav-link">Archive</a>
 				</li>
 			</ul>
 			<form class="form-inline my-2 my-lg-0">
@@ -87,6 +84,13 @@
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="buttonContainer">
+			<a type="button" class="btn btn-secondary" (click)="open(content)">Add</a>
 		</div>
 	</div>
 </div>
