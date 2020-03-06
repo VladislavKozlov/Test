@@ -1,96 +1,90 @@
-<div class="container">
-	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
-			aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+	<div class="container">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07XL"
+			aria-controls="navbarsExample07XL" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<a routerLink="/todolist" class="navbar-brand">Todo UI</a>
-		<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		<div class="collapse navbar-collapse" id="navbarsExample07XL">
+			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
 					<a routerLink="/archivetasks" class="nav-link">Archive</a>
 				</li>
 			</ul>
-			<form class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			<form class="form-inline my-2 my-md-0">
+				<input class="form-control" type="text" placeholder="Search" aria-label="Search">
 			</form>
 		</div>
-	</nav>
-</div>
-<div class="jumbotron">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-4 border border-right-0 border-dark p-0 m-0" dragula="Spill">
-				<div class="card border border-top-0 border-right-0 border-left-0 border-dark rounded-0">
-					<div class="card-body">
-						<div>
-							<h4 class="text-center">To Do</h4>
-						</div>
-					</div>
-				</div>
-				<div *ngFor="let card of cardsTodo" class="card border border-dark p-1 m-1">
-					<div class="card-body">
-						<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
-						<p class="card-text">{{card.description}}</p>
-						<img src="assets/img/edit.png" class="cursorPointer"
-							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
-						<img src="assets/img/delete.png" class="cursorPointer"
-							(click)="openConfirmationDialog(card.id)" />
-						<img src="assets/img/archive.png" class="cursorPointer"
-							(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4 border border-right-0 border-dark p-0 m-0" dragula="Spill">
-				<div class="card border border-top-0 border-right-0 border-left-0 border-dark rounded-0">
-					<div class="card-body">
-						<div>
-							<h4 class="text-center">In Progress</h4>
-						</div>
-					</div>
-				</div>
-				<div *ngFor="let card of cardsInProgress" class="card border border-dark p-1 m-1">
-					<div class="card-body">
-						<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
-						<p class="card-text">{{card.description}}</p>
-						<img src="assets/img/edit.png" class="cursorPointer"
-							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
-						<img src="assets/img/delete.png" class="cursorPointer"
-							(click)="openConfirmationDialog(card.id)" />
-						<img src="assets/img/archive.png" class="cursorPointer"
-							(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4 border border-dark p-0 m-0" dragula="Spill">
-				<div class="card border border-top-0 border-right-0 border-left-0 border-dark rounded-0">
-					<div class="card-body">
-						<div>
-							<h4 class="text-center">Done</h4>
-						</div>
-					</div>
-				</div>
-				<div *ngFor="let card of cardsDone" class="card border border-dark p-1 m-1">
-					<div class="card-body">
-						<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
-						<p class="card-text">{{card.description}}</p>
-						<img src="assets/img/edit.png" class="cursorPointer"
-							(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
-						<img src="assets/img/delete.png" class="cursorPointer"
-							(click)="openConfirmationDialog(card.id)" />
-						<img src="assets/img/archive.png" class="cursorPointer"
-							(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
-					</div>
-				</div>
-			</div>
+	</div>
+</nav>
+<div class="container">
+	<div class="row">
+		<div class="buttonContainer">
+			<a type="button" class="btn btn-primary" (click)="open(content)">Add</a>
 		</div>
 	</div>
 </div>
 <div class="container">
 	<div class="row">
-		<div class="buttonContainer">
-			<a type="button" class="btn btn-secondary" (click)="open(content)">Add</a>
+		<div class="col-md-4 border border-right-0 border-dark p-0 m-0" dragula="Spill">
+			<div class="card border border-top-0 border-right-0 border-left-0 border-dark rounded-0">
+				<div class="card-body">
+					<div>
+						<h4 class="text-center">To Do</h4>
+					</div>
+				</div>
+			</div>
+			<div *ngFor="let card of cardsTodo" class="card border border-dark p-1 m-1">
+				<div class="card-body">
+					<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
+					<p class="card-text">{{card.description}}</p>
+					<img src="assets/img/edit.png" class="cursorPointer"
+						(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
+					<img src="assets/img/delete.png" class="cursorPointer" (click)="openConfirmationDialog(card.id)" />
+					<img src="assets/img/archive.png" class="cursorPointer"
+						(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 border border-right-0 border-dark p-0 m-0" dragula="Spill">
+			<div class="card border border-top-0 border-right-0 border-left-0 border-dark rounded-0">
+				<div class="card-body">
+					<div>
+						<h4 class="text-center">In Progress</h4>
+					</div>
+				</div>
+			</div>
+			<div *ngFor="let card of cardsInProgress" class="card border border-dark p-1 m-1">
+				<div class="card-body">
+					<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
+					<p class="card-text">{{card.description}}</p>
+					<img src="assets/img/edit.png" class="cursorPointer"
+						(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
+					<img src="assets/img/delete.png" class="cursorPointer" (click)="openConfirmationDialog(card.id)" />
+					<img src="assets/img/archive.png" class="cursorPointer"
+						(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 border border-dark p-0 m-0" dragula="Spill">
+			<div class="card border border-top-0 border-right-0 border-left-0 border-dark rounded-0">
+				<div class="card-body">
+					<div>
+						<h4 class="text-center">Done</h4>
+					</div>
+				</div>
+			</div>
+			<div *ngFor="let card of cardsDone" class="card border border-dark p-1 m-1">
+				<div class="card-body">
+					<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
+					<p class="card-text">{{card.description}}</p>
+					<img src="assets/img/edit.png" class="cursorPointer"
+						(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
+					<img src="assets/img/delete.png" class="cursorPointer" (click)="openConfirmationDialog(card.id)" />
+					<img src="assets/img/archive.png" class="cursorPointer"
+						(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
