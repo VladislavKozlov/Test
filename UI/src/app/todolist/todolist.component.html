@@ -38,10 +38,11 @@
 				<div class="card-body">
 					<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
 					<p class="card-text">{{card.description}}</p>
-					<img src="assets/img/edit.png" class="cursorPointer"
+					<img src="assets/img/edit.svg" width="32" height="32" class="cursorPointer"
 						(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
-					<img src="assets/img/delete.png" class="cursorPointer" (click)="openConfirmationDialog(card.id)" />
-					<img src="assets/img/archive.png" class="cursorPointer"
+					<img src="assets/img/delete.svg" width="32" height="32" class="cursorPointer"
+						(click)="openConfirmationDialog(card.id)" />
+					<img src="assets/img/archive.svg" width="32" height="32" class="cursorPointer"
 						(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
 				</div>
 			</div>
@@ -58,10 +59,11 @@
 				<div class="card-body">
 					<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
 					<p class="card-text">{{card.description}}</p>
-					<img src="assets/img/edit.png" class="cursorPointer"
+					<img src="assets/img/edit.svg" width="32" height="32" class="cursorPointer"
 						(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
-					<img src="assets/img/delete.png" class="cursorPointer" (click)="openConfirmationDialog(card.id)" />
-					<img src="assets/img/archive.png" class="cursorPointer"
+					<img src="assets/img/delete.svg" width="32" height="32" class="cursorPointer"
+						(click)="openConfirmationDialog(card.id)" />
+					<img src="assets/img/archive.svg" width="32" height="32" class="cursorPointer"
 						(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
 				</div>
 			</div>
@@ -78,10 +80,11 @@
 				<div class="card-body">
 					<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
 					<p class="card-text">{{card.description}}</p>
-					<img src="assets/img/edit.png" class="cursorPointer"
+					<img src="assets/img/edit.svg" width="32" height="32" class="cursorPointer"
 						(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
-					<img src="assets/img/delete.png" class="cursorPointer" (click)="openConfirmationDialog(card.id)" />
-					<img src="assets/img/archive.png" class="cursorPointer"
+					<img src="assets/img/delete.svg" width="32" height="32" class="cursorPointer"
+						(click)="openConfirmationDialog(card.id)" />
+					<img src="assets/img/archive.svg" width="32" height="32" class="cursorPointer"
 						(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
 				</div>
 			</div>
