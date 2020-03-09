@@ -1,11 +1,11 @@
 <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
   <div class="container">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07XL"
-      aria-controls="navbarsExample07XL" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarArchivetasks"
+      aria-controls="navbarArchivetasks" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <a routerLink="/todolist" class="navbar-brand">Todo UI</a>
-    <div class="collapse navbar-collapse" id="navbarsExample07XL">
+    <div class="collapse navbar-collapse" id="navbarArchivetasks">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <a routerLink="/archivetasks" class="nav-link">Archive</a>
@@ -21,9 +21,9 @@
   <table class="table">
     <thead class="thead-light">
       <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Description</th>
-        <th scope="col">Date create</th>
+        <th scope="col" class="cursor-pointer" (click)="sortTitle()">Title</th>
+        <th scope="col" class="cursor-pointer" (click)="sortDescription()">Description</th>
+        <th scope="col" class="cursor-pointer" (click)="sortDate()">Date create</th>
       </tr>
     </thead>
     <tbody>

@@ -1,11 +1,11 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark">
 	<div class="container">
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07XL"
-			aria-controls="navbarsExample07XL" aria-expanded="false" aria-label="Toggle navigation">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTodolist"
+			aria-controls="navbarTodolist" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<a routerLink="/todolist" class="navbar-brand">Todo UI</a>
-		<div class="collapse navbar-collapse" id="navbarsExample07XL">
+		<div class="collapse navbar-collapse" id="navbarTodolist">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
 					<a routerLink="/archivetasks" class="nav-link">Archive</a>
@@ -19,7 +19,7 @@
 </nav>
 <div class="container">
 	<div class="row">
-		<div class="buttonContainer">
+		<div class="button-container">
 			<a type="button" class="btn btn-primary" (click)="open(content)">Add</a>
 		</div>
 	</div>
@@ -36,14 +36,27 @@
 			</div>
 			<div *ngFor="let card of cardsTodo" class="card border border-dark p-1 m-1">
 				<div class="card-body">
-					<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
+					<div class="row">
+						<div class="col-md-4">
+							<h5 class="card-title">{{card.taskName}}</h5>
+						</div>
+						<div class="date-time col-md-8">
+							<h5>{{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
+						</div>
+					</div>
 					<p class="card-text">{{card.description}}</p>
-					<img src="assets/img/edit.svg" width="32" height="32" class="cursorPointer"
-						(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
-					<img src="assets/img/delete.svg" width="32" height="32" class="cursorPointer"
-						(click)="openConfirmationDialog(card.id)" />
-					<img src="assets/img/archive.svg" width="32" height="32" class="cursorPointer"
-						(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
+					<div class="row">
+						<div class="col-md-8">
+							<img src="assets/img/edit.svg" class="icons cursor-pointer"
+								(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
+						</div>
+						<div class="col-6 col-md-4">
+							<img src="assets/img/delete.svg" class="icons cursor-pointer"
+								(click)="openConfirmationDialog(card.id)" />
+							<img src="assets/img/archive.svg" class="icons cursor-pointer"
+								(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -57,14 +70,27 @@
 			</div>
 			<div *ngFor="let card of cardsInProgress" class="card border border-dark p-1 m-1">
 				<div class="card-body">
-					<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
+					<div class="row">
+						<div class="col-md-4">
+							<h5 class="card-title">{{card.taskName}}</h5>
+						</div>
+						<div class="date-time col-md-8">
+							<h5>{{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
+						</div>
+					</div>
 					<p class="card-text">{{card.description}}</p>
-					<img src="assets/img/edit.svg" width="32" height="32" class="cursorPointer"
-						(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
-					<img src="assets/img/delete.svg" width="32" height="32" class="cursorPointer"
-						(click)="openConfirmationDialog(card.id)" />
-					<img src="assets/img/archive.svg" width="32" height="32" class="cursorPointer"
-						(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
+					<div class="row">
+						<div class="col-md-8">
+							<img src="assets/img/edit.svg" class="icons cursor-pointer"
+								(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
+						</div>
+						<div class="col-6 col-md-4">
+							<img src="assets/img/delete.svg" class="icons cursor-pointer"
+								(click)="openConfirmationDialog(card.id)" />
+							<img src="assets/img/archive.svg" class="icons cursor-pointer"
+								(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -78,14 +104,27 @@
 			</div>
 			<div *ngFor="let card of cardsDone" class="card border border-dark p-1 m-1">
 				<div class="card-body">
-					<h5 class="card-title">{{card.taskName}} {{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
+					<div class="row">
+						<div class="col-md-4">
+							<h5 class="card-title">{{card.taskName}}</h5>
+						</div>
+						<div class="date-time col-md-8">
+							<h5>{{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
+						</div>
+					</div>
 					<p class="card-text">{{card.description}}</p>
-					<img src="assets/img/edit.svg" width="32" height="32" class="cursorPointer"
-						(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
-					<img src="assets/img/delete.svg" width="32" height="32" class="cursorPointer"
-						(click)="openConfirmationDialog(card.id)" />
-					<img src="assets/img/archive.svg" width="32" height="32" class="cursorPointer"
-						(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
+					<div class="row">
+						<div class="col-md-8">
+							<img src="assets/img/edit.svg" class="icons cursor-pointer"
+								(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
+						</div>
+						<div class="col-6 col-md-4">
+							<img src="assets/img/delete.svg" class="icons cursor-pointer"
+								(click)="openConfirmationDialog(card.id)" />
+							<img src="assets/img/archive.svg" class="icons cursor-pointer"
+								(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

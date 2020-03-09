@@ -51,14 +51,14 @@ namespace API.Controllers
             }
             todoCard.Id = id;
             await _taskService.Edit(todoCard);
-            return Json(string.Empty);
+            return Json(null);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _taskService.Remove(id);
-            return Json(string.Empty);
+            return Json(null);
         }
     }
 }

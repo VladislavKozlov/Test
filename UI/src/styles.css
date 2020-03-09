@@ -5,11 +5,11 @@ body, html {
     background: #e9ecef;
 }
 
-img.cursorPointer,  a.cursorPointer {
+img.cursor-pointer,  a.cursor-pointer, th.cursor-pointer {
     cursor: pointer;
 }
 
-.buttonContainer {
+.button-container {
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -17,3 +17,13 @@ img.cursorPointer,  a.cursorPointer {
 .btn-primary {
 	color: #ffff !important;
 }
+
+.date-time {
+    text-align: right;
+}
+
+.icons {
+    height: 32px;
+    width: 32px;
+}
+
