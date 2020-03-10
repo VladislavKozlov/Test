@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { TodoCard } from '../models/todoCard';
-import { TodoCardService } from '../todo-card.service';
+import { TodoCard } from './../../models/todoCard';
+import { TodoCardService } from './../../todo-card.service';
 
 @Component({
   selector: 'archivetasks-todolist',
@@ -39,8 +39,11 @@ export class ArchivetasksComponent implements OnInit {
       this.cardsAll = data;
       if (!this.sortingTaskName) {
         this.cardsArchive = this.cardsAll.filter(x => x.status === 3);
-        //this.cardsArchive = this.cardsArchive.sort((a: TodoCard, b: TodoCard) => b.taskName - a.taskName);//???
-        this.cardsArchive = this.cardsArchive.sort((a: TodoCard, b: TodoCard) => b.id - a.id);
+        this.cardsArchive = this.cardsArchive.sort(function(a, b) {
+          var textA = a.taskName.toUpperCase();
+          var textB = b.taskName.toUpperCase();
+          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+          });
       } else {
         this.cardsArchive = this.cardsAll.filter(x => x.status === 3);
       }
@@ -53,7 +56,11 @@ export class ArchivetasksComponent implements OnInit {
       this.cardsAll = data;
       if (!this.sortingDescription) {
         this.cardsArchive = this.cardsAll.filter(x => x.status === 3);
-        this.cardsArchive = this.cardsArchive.sort((a: TodoCard, b: TodoCard) => b.id - a.id);
+        this.cardsArchive = this.cardsArchive.sort(function(a, b) {
+          var textA = a.description.toUpperCase();
+          var textB = b.description.toUpperCase();
+          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+          });
       } else {
         this.cardsArchive = this.cardsAll.filter(x => x.status === 3);
       }
@@ -66,7 +73,6 @@ export class ArchivetasksComponent implements OnInit {
       this.cardsAll = data;
       if (!this.sortingDate) {
         this.cardsArchive = this.cardsAll.filter(x => x.status === 3);
-        //this.cardsArchive = this.cardsArchive.sort((a: any, b: any) => new Date(b.createDate) - new Date(a.createDate));//???
         this.cardsArchive = this.cardsArchive.sort((a: TodoCard, b: TodoCard) => b.id - a.id);
       } else {
         this.cardsArchive = this.cardsAll.filter(x => x.status === 3);

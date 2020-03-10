@@ -1,7 +1,7 @@
 import { Component, ViewChild, Output, Input, TemplateRef } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { TodoCard } from '../models/todoCard';
-import { TodoCardService } from '../todo-card.service';
+import { TodoCard } from './../../models/todoCard';
+import { TodoCardService } from './../../todo-card.service';
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 
