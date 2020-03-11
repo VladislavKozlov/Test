@@ -21,9 +21,12 @@
   <table class="table">
     <thead class="thead-light">
       <tr>
-        <th scope="col" class="cursor-pointer" (click)="sortTitle()">Title</th>
-        <th scope="col" class="cursor-pointer" (click)="sortDescription()">Description</th>
-        <th scope="col" class="cursor-pointer" (click)="sortDate()">Date create</th>
+        <th scope="col" [class.sorting]="isSortingTaskName()" [class.sorting_asc]="isSortingAscTaskName()"
+          [class.sorting_desc]="isSortingDescTaskName()" (click)="sortTitle()">Title</th>
+        <th scope="col" [class.sorting]="isSortingDescription()" [class.sorting_asc]="isSortingAscDescription()"
+          [class.sorting_desc]="isSortingDescDescription()" (click)="sortDescription()">Description</th>
+        <th scope="col" [class.sorting]="isSortingDate()" [class.sorting_asc]="isSortingAscDate()"
+          [class.sorting_desc]="isSortingDescDate()" (click)="sortDate()">Date create</th>
       </tr>
     </thead>
     <tbody>

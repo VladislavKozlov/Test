@@ -27,3 +27,33 @@ img.cursor-pointer,  a.cursor-pointer, th.cursor-pointer {
     width: 32px;
 }
 
+table thead th {
+  font-weight: bold;
+}
+table thead th,
+table thead td {
+  padding: 10px 18px;
+  border-bottom: 1px solid #111;
+}
+table thead th:active,
+table thead td:active {
+  outline: none;
+}
+table thead .sorting,
+table thead .sorting_asc,
+table thead .sorting_desc,
+table thead .sorting_asc_disabled,
+table thead .sorting_desc_disabled {
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+table thead .sorting {
+  background-image: url("assets/img/sort_both.png");
+}
+table thead .sorting_asc {
+  background-image: url("assets/img/sort_asc.png");
+}
+table thead .sorting_desc {
+  background-image: url("assets/img/sort_desc.png");
+}
