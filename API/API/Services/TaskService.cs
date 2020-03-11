@@ -1,5 +1,4 @@
-﻿using API.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using DAL;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,9 +8,9 @@ namespace API.Services
 {
     public class TaskService : ITaskService
     {
-        private ITodoDbContext _dbContext;
+        private ApplicationDbContext _dbContext;
 
-        public TaskService(ITodoDbContext dbContext)
+        public TaskService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
