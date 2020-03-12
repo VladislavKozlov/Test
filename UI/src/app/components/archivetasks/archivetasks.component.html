@@ -21,12 +21,18 @@
   <table class="table">
     <thead class="thead-light">
       <tr>
-        <th scope="col" [class.sorting]="isSortingTaskName()" [class.sorting_asc]="isSortingAscTaskName()"
-          [class.sorting_desc]="isSortingDescTaskName()" (click)="sortTitle()">Title</th>
-        <th scope="col" [class.sorting]="isSortingDescription()" [class.sorting_asc]="isSortingAscDescription()"
-          [class.sorting_desc]="isSortingDescDescription()" (click)="sortDescription()">Description</th>
-        <th scope="col" [class.sorting]="isSortingDate()" [class.sorting_asc]="isSortingAscDate()"
-          [class.sorting_desc]="isSortingDescDate()" (click)="sortDate()">Date create</th>
+        <th *ngIf="isSortingTaskName" scope="col" class="sorting" (click)="sortTitle()">Title</th>
+        <th *ngIf="!isSortingTaskName" scope="col"
+          [ngClass]="{'sorting_asc': isSortingAscDescTaskName(), 'sorting_desc': !isSortingAscDescTaskName()}"
+          (click)="sortTitle()">Title</th>
+        <th *ngIf="isSortingDescription" scope="col" class="sorting" (click)="sortDescription()">Description</th>
+        <th *ngIf="!isSortingDescription" scope="col"
+          [ngClass]="{'sorting_asc': isSortingAscDescDescription(), 'sorting_desc': !isSortingAscDescDescription()}"
+          (click)="sortDescription()">Description</th>
+        <th *ngIf="isSortingDate" scope="col" class="sorting" (click)="sortDate()">Date create</th>
+        <th *ngIf="!isSortingDate" scope="col"
+          [ngClass]="{'sorting_asc': isSortingAscDescDate(), 'sorting_desc': !isSortingAscDescDate()}"
+          (click)="sortDate()">Date create</th>
       </tr>
     </thead>
     <tbody>

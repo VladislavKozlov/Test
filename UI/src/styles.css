@@ -41,9 +41,7 @@ table thead td:active {
 }
 table thead .sorting,
 table thead .sorting_asc,
-table thead .sorting_desc,
-table thead .sorting_asc_disabled,
-table thead .sorting_desc_disabled {
+table thead .sorting_desc {
   cursor: pointer;
   background-repeat: no-repeat;
   background-position: right;

@@ -16,20 +16,16 @@ export class ArchivetasksComponent implements OnInit {
   cardsAll: Array<TodoCard>;
   cardsArchive: Array<TodoCard>;
   cardsArchiveSort: Array<TodoCard>;
-  sortingTaskName = false;
-  sortingDescription = false;
-  sortingDate = false;
-  sortingTaskNameActive = false;
-  sortingDescriptionActive = false;
-  sortingDateActive = false;
+  isSortingTaskName = true;
+  isSortingDescription = true;
+  isSortingDate = true;
+  isAscTaskName = false;
+  isAscDescription = false;
+  isAscDate = false;
 
   constructor(private todoCardService: TodoCardService) { }
 
   public renderArchiveCards() {
-    this.isSortingTaskName();
-    this.isSortingDescription();
-    this.isSortingDate();
-
     this.todoCardService.getAll().subscribe((data: Array<TodoCard>) => {
       this.cardsAll = data;
       this.cardsArchive = this.cardsAll.filter(x => x.status === 3);
@@ -41,142 +37,88 @@ export class ArchivetasksComponent implements OnInit {
   }
 
   public sortTitle() {
-    this.sortingDescriptionActive = false;
-    this.sortingDateActive = false;
-    this.isSortingTaskName();
-    this.isSortingDescription();
-    this.isSortingDate();
+    this.isSortingDescription = true;
+    this.isSortingDate = true;
 
     this.todoCardService.getAll().subscribe((data: Array<TodoCard>) => {
       this.cardsAll = data;
-      if (!this.sortingTaskName) {
-        this.sortingTaskNameActive = true;
+      if (!this.isAscTaskName) {
         this.cardsArchive = this.cardsAll.filter(x => x.status === 3);
         this.cardsArchive = this.cardsArchive.sort(function (a, b) {
           var textA = a.taskName.toUpperCase();
           var textB = b.taskName.toUpperCase();
           return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
         });
+        this.isSortingTaskName = false;
+        this.isAscTaskName = true;
       } else {
-        this.sortingTaskNameActive = true;
         this.cardsArchive = this.cardsAll.filter(x => x.status === 3);
+        this.isSortingTaskName = false;
+        this.isAscTaskName = false;
       }
-      this.sortingTaskName = !this.sortingTaskName;
     });
   }
 
   public sortDescription() {
-    this.sortingDateActive = false;
-    this.sortingTaskNameActive = false;
-    this.isSortingTaskName();
-    this.isSortingDescription();
-    this.isSortingDate();
+    this.isSortingDate = true;
+    this.isSortingTaskName = true;
 
     this.todoCardService.getAll().subscribe((data: Array<TodoCard>) => {
       this.cardsAll = data;
-      if (!this.sortingDescription) {
-        this.sortingDescriptionActive = true;
+      if (!this.isAscDescription) {
         this.cardsArchive = this.cardsAll.filter(x => x.status === 3);
         this.cardsArchive = this.cardsArchive.sort(function (a, b) {
           var textA = a.description.toUpperCase();
           var textB = b.description.toUpperCase();
           return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
         });
+        this.isSortingDescription = false;
+        this.isAscDescription = true;
       } else {
-        this.sortingDescriptionActive = true;
         this.cardsArchive = this.cardsAll.filter(x => x.status === 3);
+        this.isSortingDescription = false;
+        this.isAscDescription = false;
       }
-      this.sortingDescription = !this.sortingDescription;
     });
   }
 
   public sortDate() {
-    this.sortingTaskNameActive = false;
-    this.sortingDescriptionActive = false;
-    this.isSortingTaskName();
-    this.isSortingDescription();
-    this.isSortingDate();
+    this.isSortingTaskName = true;
+    this.isSortingDescription = true;
 
     this.todoCardService.getAll().subscribe((data: Array<TodoCard>) => {
       this.cardsAll = data;
-      if (!this.sortingDate) {
-        this.sortingDateActive = true;
+      if (!this.isAscDate) {
         this.cardsArchive = this.cardsAll.filter(x => x.status === 3);
         this.cardsArchive = this.cardsArchive.sort((a: TodoCard, b: TodoCard) => b.id - a.id);
+        this.isSortingDate = false;
+        this.isAscDate = true;
       } else {
-        this.sortingDateActive = true;
         this.cardsArchive = this.cardsAll.filter(x => x.status === 3);
+        this.isSortingDate = false;
+        this.isAscDate = false;
       }
-      this.sortingDate = !this.sortingDate;
     });
   }
 
-  public isSortingTaskName() {
-    if (this.sortingTaskNameActive) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  public isSortingAscTaskName() {
-    if (this.sortingTaskName && this.sortingTaskNameActive) {
+  public isSortingAscDescTaskName() {
+    if (this.isAscTaskName) {
       return true;
     } else {
       return false;
     }
   }
 
-  public isSortingDescTaskName() {
-    if (!this.sortingTaskName && this.sortingTaskNameActive) {
+  public isSortingAscDescDescription() {
+    if (this.isAscDescription) {
       return true;
     } else {
       return false;
     }
   }
 
-  public isSortingDescription() {
-    if (this.sortingDescriptionActive) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  public isSortingAscDescription() {
-    if (!this.sortingDescription && this.sortingDescriptionActive) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public isSortingDescDescription() {
-    if (this.sortingDescription && this.sortingDescriptionActive) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public isSortingDate() {
-    if (this.sortingDateActive) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  public isSortingAscDate() {
-    if (!this.sortingDate && this.sortingDateActive) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public isSortingDescDate() {
-    if (this.sortingDate && this.sortingDateActive) {
+  public isSortingAscDescDate() {
+    if (this.isAscDate) {
       return true;
     } else {
       return false;
