@@ -7,10 +7,10 @@ import { of } from 'rxjs/observable/of';
 @Injectable()
 export class TodoCardService {
   private httpOptions = {
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json'
-		})
-	};
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
   baseApiUrl: string = "http://k2vtodo.somee.com/api/tasks";
 

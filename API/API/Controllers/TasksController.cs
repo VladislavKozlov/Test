@@ -1,5 +1,5 @@
-﻿using DAL;
-using API.Services;
+﻿using API.Services;
+using DAL;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -38,6 +38,7 @@ namespace API.Controllers
         public async Task<IActionResult> Create([FromBody] TodoCard todoCard)
         {
             await _taskService.Add(todoCard);
+            TelegramService.AddTaskMessage(todoCard.TaskName);
             return Json(todoCard.Id);
         }
 
