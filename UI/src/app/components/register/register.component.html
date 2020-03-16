@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+  <div class="container">
+    <a routerLink="/todolist" class="navbar-brand">Todo UI</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarArchivetasks"
+      aria-controls="navbarArchivetasks" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarArchivetasks">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a routerLink="/archivetasks" class="nav-link">Archive</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-md-0">
+        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a routerLink="/login" id="loginLink" class="nav-link">SignIn</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <br />
+  <h2>Register</h2>
+  <br />
+  <form action="#" class="form-horizontal">
+    <div class="form-group">
+      <label class="col-form-label" for="Email">Email</label>
+      <input class="form-control col-md-4" id="Email" name="Email" type="text" />
+    </div>
+    <div class="form-group">
+      <label class="col-form-label" for="Password">Password</label>
+      <input class="form-control col-md-4" id="Password" name="Password" type="password" />
+    </div>
+    <div class="form-group">
+      <label class="col-form-label" for="ConfirmPassword">Confirm Password</label>
+      <input class="form-control col-md-4" id="ConfirmPassword" name="ConfirmPassword" type="password" />
+    </div>
+    <br />
+    <div class="form-group"> 
+        <input type="button" class="btn btn-primary" value="Register" /> 
+    </div>
+  </form>
+</div>

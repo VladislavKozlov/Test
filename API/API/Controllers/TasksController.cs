@@ -37,8 +37,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] TodoCard todoCard)
         {
-            await _taskService.Add(todoCard);
-            TelegramService.AddTaskMessage(todoCard.TaskName);
+            await _taskService.Add(todoCard);            
             return Json(todoCard.Id);
         }
 
