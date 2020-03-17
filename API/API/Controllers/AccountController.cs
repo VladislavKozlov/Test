@@ -1,73 +1,81 @@
-﻿using API.Helpers;
+﻿using API.Auth;
+using API.Helpers;
 using API.Models;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]/[action]")]   
+    [Route("api/[controller]/[action]")]
     public class AccountController : Controller
     {
         private readonly AppUserDbContext _appUserDbContext;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IJwtFactory _jwtFactory;
+        private readonly JwtIssuerOptions _jwtOptions;
 
-        public AccountController(AppUserDbContext appUserDbContext)
+        public AccountController(AppUserDbContext appUserDbContext, UserManager<AppUser> userManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
         {
             _appUserDbContext = appUserDbContext;
+            _userManager = userManager;
+            _jwtFactory = jwtFactory;
+            _jwtOptions = jwtOptions.Value;
         }
 
-        [HttpPost]       
+        private async Task<ClaimsIdentity> GetClaimsIdentity(string email, string password)
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                return await Task.FromResult<ClaimsIdentity>(null);
+
+            var emailToVerify = await _userManager.FindByEmailAsync(email);
+            if (emailToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
+
+            // check the credentials
+            if (await _userManager.CheckPasswordAsync(emailToVerify, password))
+            {
+                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(email, emailToVerify.Id));
+            }
+            // Credentials are invalid, or account doesn't exist
+            return await Task.FromResult<ClaimsIdentity>(null);
+        }
+
+        [HttpPost]
         public async Task<ActionResult> Login([FromBody] LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                AppUser appUser = await _appUserDbContext.AppUsers.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-                if (appUser != null)
-                {
-                    await Authenticate(model.Email);
-                    return new OkObjectResult("Ok");
-                }
+                return BadRequest(ModelState);
             }
-            return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
+
+            var identity = await GetClaimsIdentity(model.Email, model.Password);
+            if (identity == null)
+            {
+                return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
+            }
+
+            var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, model.Email, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
+            return new OkObjectResult(jwt);
         }
 
-        [HttpPost]        
+        [HttpPost]
         public async Task<ActionResult> Register([FromBody] RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                AppUser appUser = await _appUserDbContext.AppUsers.FirstOrDefaultAsync(u => u.Email == model.Email);
+                AppUser appUser = await _appUserDbContext.AspNetUsers.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (appUser == null)
                 {
-                    _appUserDbContext.AppUsers.Add(new AppUser { Email = model.Email, Password = model.Password });
+                    _appUserDbContext.AspNetUsers.Add(new AppUser { Email = model.Email, Password = model.Password });
                     await _appUserDbContext.SaveChangesAsync();
-                    await Authenticate(model.Email);
-
                     return new OkObjectResult("Account created");
                 }
             }
             return BadRequest(Errors.AddErrorToModelState("Register_failure", "Invalid username or password.", ModelState));
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return new OkObjectResult("Logout");
-        }
-
-        private async Task Authenticate(string userName)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
-            };
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
     }
 }

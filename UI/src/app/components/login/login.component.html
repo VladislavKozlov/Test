@@ -21,25 +21,34 @@
   </div>
 </nav>
 <div class="container">
-  <br />
-  <h2>Login</h2>
-  <br />
-  <form action="#" class="form-horizontal">
-    <div class="form-group">
-      <label class="col-form-label" for="Email">Email</label>
-      <input class="form-control col-md-4" id="Email" name="Email" type="text" />
+  <div class="row">
+    <div class="col-md-6 new-user-alert">
+      	<div *ngIf="brandNew" class="alert alert-success" role="alert">
+            <strong>All set!</strong> Please login with your account
+        </div>  
+        <h2>Login</h2>        
     </div>
-    <div class="form-group">
-      <label class="col-form-label" for="Password">Password</label>
-      <input class="form-control col-md-4" id="Password" name="Password" type="password" />
-    </div>
-    <br />
-    <div class="form-group">
-      <input type="button" class="btn btn-primary" value="Login" />
-    </div>
-    <br />
-    <p>
-      <a routerLink="/register">Register new user</a>
-    </p>
-  </form>
+</div>
+  <div class="row">
+    <div class="col-md-6">
+        <form #f="ngForm" novalidate (ngSubmit)="login(f)">           
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input id="email" type="text" required name="email" class="form-control" placeholder="Email" [ngModel]="credentials.email" #email="ngModel" tmFocus validateEmail>
+              <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">Please enter a valid email</small>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" required name="password" placeholder="Password" ngModel>
+            </div>           
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" [disabled]="f.invalid || isRequesting">Login</button>
+                <!--<app-spinner [isRunning]="isRequesting"></app-spinner>-->
+            </div>
+            <div *ngIf="errors" class="alert alert-danger" role="alert">
+                <strong>Oops!</strong> {{errors}}
+              </div>             
+          </form>
+     </div>
+  </div>
 </div>

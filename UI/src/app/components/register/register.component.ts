@@ -1,23 +1,42 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { TodoCard } from './../../models/todoCard';
-import { TodoCardService } from './../../todo-card.service';
+import { Router } from '@angular/router';
+import { UserRegistration } from '../../models/user.registration.interface';
+import { UserService } from '../../user.service';
+
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
-  providers: [TodoCardService]
+  providers: [UserService]
 })
 
 export class RegisterComponent implements OnInit {
 
-  title = 'Todo UI';
+  errors: string;
+  isRequesting: boolean;
+  submitted: boolean = false;
 
-  constructor(private todoCardService: TodoCardService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
-  ngOnInit(): void {
-   
+  ngOnInit() {
   }
 
+  registerUser({ value, valid }: { value: UserRegistration, valid: boolean }) {
+    this.submitted = true;
+    this.isRequesting = true;
+    this.errors = '';
+    if (valid) {
+      this.userService.register(value.email, value.password, value.confirmPassword)
+        .finally(() => this.isRequesting = false)
+        .subscribe(
+          result => {
+            if (result) {
+              this.router.navigate(['/login'], { queryParams: { brandNew: true, email: value.email } });
+            }
+          },
+          errors => this.errors = errors);
+    }
+  }
 }

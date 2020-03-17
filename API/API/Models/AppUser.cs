@@ -1,9 +1,10 @@
-﻿namespace API.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace API.Models
 {
-    public class AppUser
+    public class AppUser : IdentityUser
     {
-        public int Id { get; set; }
-        public string Email { get; set; }
+        public override string Email { get; set; }
         public string Password { get; set; }
     }
 }

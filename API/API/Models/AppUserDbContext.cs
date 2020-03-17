@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Models
 {
-    public class AppUserDbContext : IdentityDbContext
+    public class AppUserDbContext : IdentityDbContext<AppUser>
     {
-        public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<AppUser> AspNetUsers { get; set; }
 
-        public AppUserDbContext(DbContextOptions<DAL.ApplicationDbContext> options)
+        public AppUserDbContext(DbContextOptions<AppUserDbContext> options)
             : base(options)
         {
             Database.EnsureCreated();
