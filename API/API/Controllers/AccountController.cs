@@ -30,18 +30,18 @@ namespace API.Controllers
         private async Task<ClaimsIdentity> GetClaimsIdentity(string email, string password)
         {
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
                 return await Task.FromResult<ClaimsIdentity>(null);
-
-            var emailToVerify = await _userManager.FindByEmailAsync(email);
-            if (emailToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
-
-            // check the credentials
-            if (await _userManager.CheckPasswordAsync(emailToVerify, password))
+            }
+            var emailToVerify = await _appUserDbContext.AspNetUsers.FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
+            if (emailToVerify == null)
+            {
+                return await Task.FromResult<ClaimsIdentity>(null);
+            }
+            else
             {
                 return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(email, emailToVerify.Id));
             }
-            // Credentials are invalid, or account doesn't exist
-            return await Task.FromResult<ClaimsIdentity>(null);
         }
 
         [HttpPost]
@@ -70,12 +70,16 @@ namespace API.Controllers
                 AppUser appUser = await _appUserDbContext.AspNetUsers.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (appUser == null)
                 {
-                    _appUserDbContext.AspNetUsers.Add(new AppUser { Email = model.Email, Password = model.Password });
-                    await _appUserDbContext.SaveChangesAsync();
-                    return new OkObjectResult("Account created");
+                    _appUserDbContext.AspNetUsers.Add(new AppUser { UserName = model.Email, Email = model.Email, Password = model.Password });
+                    await _appUserDbContext.SaveChangesAsync();                    
+                    return Json("Account created");
                 }
             }
-            return BadRequest(Errors.AddErrorToModelState("Register_failure", "Invalid username or password.", ModelState));
+            else
+            {
+                return BadRequest(Errors.AddErrorToModelState("Register_failure", "Invalid username or password.", ModelState));
+            }
+            return NoContent();
         }
     }
 }

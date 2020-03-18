@@ -31,12 +31,12 @@ export class RegisterComponent implements OnInit {
       this.userService.register(value.email, value.password, value.confirmPassword)
         .finally(() => this.isRequesting = false)
         .subscribe(
-          result => {
-            if (result) {
+          result => {           
+            if (result) {              
               this.router.navigate(['/login'], { queryParams: { brandNew: true, email: value.email } });
             }
           },
-          errors => this.errors = errors);
+          error => this.errors = error);         
     }
   }
 }

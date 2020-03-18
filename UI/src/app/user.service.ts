@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/Rx';
 import { UserRegistration } from './models/user.registration.interface';
-import {BaseService} from "./base.service";
+import { BaseService } from "./base.service";
 import '../rxjs-operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
-
-export class UserService extends BaseService{
+export class UserService extends BaseService {
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
   baseUrl: string = '';
 
@@ -19,7 +24,7 @@ export class UserService extends BaseService{
 
   private loggedIn = false;
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     super();
     this.loggedIn = !!localStorage.getItem('auth_token');
     this._authNavStatusSource.next(this.loggedIn);
@@ -27,26 +32,18 @@ export class UserService extends BaseService{
   }
 
   register(email: string, password: string, confirmPassword: string): Observable<UserRegistration> {
-    let body = JSON.stringify({ email, password, confirmPassword });
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.post(this.baseUrl + "/register", body, options)
-      .map(res => true)
-      .catch(this.handleError);
+    return this.http.post(this.baseUrl + "/register",
+      JSON.stringify({ email, password, confirmPassword }), this.httpOptions)
+      .pipe(catchError(this.handleError));
   }
 
   login(email: string, password: string) {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
     return this.http
       .post(
         this.baseUrl + '/login',
-        JSON.stringify({ email, password }), { headers }
+        JSON.stringify({ email, password }), this.httpOptions
       )
-      .map(res => res.json())
-      .map(res => {
+      .map((res: { auth_token: string; }) => {
         localStorage.setItem('auth_token', res.auth_token);
         this.loggedIn = true;
         this._authNavStatusSource.next(true);
@@ -64,5 +61,6 @@ export class UserService extends BaseService{
   isLoggedIn() {
     return this.loggedIn;
   }
+
 }
 

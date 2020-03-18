@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { routing } from './app.routing';
 import { AppComponent } from './app.component';
 import { DragulaModule } from 'ng2-dragula';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';

@@ -1,9 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+//import { Http } from '@angular/http';
 import { OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Credentials } from '../../models/credentials.interface';
-import { UserService } from '../../user.service';
+import { UserService } from './../../user.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    // subscribe to router event
+    //subscribe to router event
     this.subscription = this.activatedRoute.queryParams.subscribe(
       (param: any) => {
         this.brandNew = param['brandNew'];
@@ -39,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  login({ value, valid }: { value: Credentials, valid: boolean }) {
+  public login({ value, valid }: { value: Credentials, valid: boolean }) {
     this.submitted = true;
     this.isRequesting = true;
     this.errors = '';

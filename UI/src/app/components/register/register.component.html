@@ -23,12 +23,14 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6">
+      <br />
       <h2>Please enter your information</h2>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6">
-        <form #f="ngForm" novalidate (ngSubmit)="registerUser(f)">           
+        <form #f="ngForm" novalidate (ngSubmit)="registerUser(f)">
+          <br />          
             <div class="form-group">
               <label for="email">Email</label>
               <input id="email" type="text" required name="email" validateEmail class="form-control" placeholder="Email" ngModel  #email="ngModel">
@@ -40,8 +42,9 @@
             </div>   
             <div class="form-group">
                <label for="confirmPassword">Confirm Password</label>
-               <input type="text" class="form-control" id="confirmPassword" placeholder="confirmPassword"  required name="confirmPassword" ngModel>              
-            </div> 
+               <input type="password" class="form-control" id="confirmPassword" placeholder="confirmPassword"  required name="confirmPassword" ngModel>              
+            </div>
+            <br />
             <div class="form-group">
                 <button type="submit" class="btn btn-primary" [disabled]="f.invalid || isRequesting">Sign Up</button>
                 <!--<app-spinner [isRunning]="isRequesting"></app-spinner>-->
