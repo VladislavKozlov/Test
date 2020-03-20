@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserRegistration } from '../../models/user.registration.interface';
+import { UserRegistration } from '../../models/userRegistration';
 import { UserService } from '../../user.service';
 
 
@@ -28,8 +28,7 @@ export class RegisterComponent implements OnInit {
     this.isRequesting = true;
     this.errors = '';
     if (valid) {
-      this.userService.register(value.email, value.password, value.confirmPassword)
-        .finally(() => this.isRequesting = false)
+      this.userService.register(value.email, value.password, value.confirmPassword)        
         .subscribe(
           result => {           
             if (result) {              

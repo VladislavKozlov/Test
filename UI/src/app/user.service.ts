@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { BehaviorSubject } from 'rxjs/Rx';
-import { UserRegistration } from './models/user.registration.interface';
+import { BehaviorSubject } from 'rxjs';
 import { BaseService } from "./base.service";
-import '../rxjs-operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class UserService extends BaseService {
@@ -28,10 +25,10 @@ export class UserService extends BaseService {
     super();
     this.loggedIn = !!localStorage.getItem('auth_token');
     this._authNavStatusSource.next(this.loggedIn);
-    this.baseUrl = "http://localhost:59863/api/account";
+    this.baseUrl = "http://k2vtodo.somee.com/api/account";
   }
 
-  register(email: string, password: string, confirmPassword: string): Observable<UserRegistration> {
+  register(email: string, password: string, confirmPassword: string) {
     return this.http.post(this.baseUrl + "/register",
       JSON.stringify({ email, password, confirmPassword }), this.httpOptions)
       .pipe(catchError(this.handleError));
@@ -42,14 +39,12 @@ export class UserService extends BaseService {
       .post(
         this.baseUrl + '/login',
         JSON.stringify({ email, password }), this.httpOptions
-      )
-      .map((res: { auth_token: string; }) => {
+      ).pipe(map((res: { auth_token: string; }) => {
         localStorage.setItem('auth_token', res.auth_token);
         this.loggedIn = true;
         this._authNavStatusSource.next(true);
         return true;
-      })
-      .catch(this.handleError);
+      }), catchError(catchError(this.handleError))); 
   }
 
   logout() {

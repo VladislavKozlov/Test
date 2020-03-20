@@ -1,12 +1,12 @@
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 
-export abstract class BaseService {  
-    
-    constructor() { }
+export abstract class BaseService {
 
-    protected handleError(error: HttpErrorResponse) {
+  constructor() { }
+
+  protected handleError(error: HttpErrorResponse) {
     var applicationError = error.headers.get('Application-Error');
 
     // either applicationError in header or model error in body
@@ -18,11 +18,11 @@ export abstract class BaseService {
     var serverError = error.message;
 
     //if (!serverError.type) {
-      //for (var key in serverError) {
-        //if (serverError[key])
-          //modelStateErrors += serverError[key] + '\n';
-      //}
-   // }
+    //for (var key in serverError) {
+    //if (serverError[key])
+    //modelStateErrors += serverError[key] + '\n';
+    //}
+    // }
     modelStateErrors = serverError;
     modelStateErrors = modelStateErrors = '' ? null : modelStateErrors;
     return Observable.throw(modelStateErrors || 'Server error');

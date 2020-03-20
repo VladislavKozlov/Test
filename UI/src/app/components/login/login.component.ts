@@ -1,9 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-//import { Http } from '@angular/http';
 import { OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Credentials } from '../../models/credentials.interface';
+import { UserLogin } from '../../models/userLogin';
 import { UserService } from './../../user.service';
 
 @Component({
@@ -21,7 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   errors: string;
   isRequesting: boolean;
   submitted: boolean = false;
-  credentials: Credentials = { email: '', password: '' };
+  credentials: UserLogin = { email: '', password: '' };
 
   constructor(private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
@@ -40,13 +39,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  public login({ value, valid }: { value: Credentials, valid: boolean }) {
+  public login({ value, valid }: { value: UserLogin, valid: boolean }) {
     this.submitted = true;
     this.isRequesting = true;
     this.errors = '';
     if (valid) {
       this.userService.login(value.email, value.password)
-        .finally(() => this.isRequesting = false)
         .subscribe(
           result => {
             if (result) {

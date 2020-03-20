@@ -3,11 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { routing } from './app.routing';
 import { AppComponent } from './app.component';
 import { DragulaModule } from 'ng2-dragula';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbModalStack } from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { TodolistComponent } from './components/todolist/todolist.component';
@@ -19,7 +17,7 @@ import { ConfirmationDialogService } from './components/confirmation-dialog/conf
   imports: [
     BrowserModule,
     DragulaModule.forRoot(),
-    NgbModule.forRoot(),
+    NgbModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
@@ -34,7 +32,7 @@ import { ConfirmationDialogService } from './components/confirmation-dialog/conf
     ConfirmationDialogComponent
   ],
   entryComponents: [ConfirmationDialogComponent],
-  providers: [NgbModal, NgbModalStack, ConfirmationDialogService],
+  providers: [NgbModal, ConfirmationDialogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

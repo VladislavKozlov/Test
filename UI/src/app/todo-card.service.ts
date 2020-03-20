@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { TodoCard } from './models/todoCard';
 import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 @Injectable()
 export class TodoCardService {
@@ -12,7 +12,7 @@ export class TodoCardService {
     })
   };
 
-  baseApiUrl: string = "http://localhost:59863/api/tasks";
+  baseApiUrl: string = "http://k2vtodo.somee.com/api/tasks";
 
   constructor(private http: HttpClient) { }
 
