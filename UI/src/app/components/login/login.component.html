@@ -23,34 +23,40 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6 new-user-alert">
-      	<div *ngIf="brandNew" class="alert alert-success" role="alert">
-            <strong>All set!</strong> Please login with your account
-        </div>
-        <br />  
-        <h2>Login</h2>        
+      <div *ngIf="brandNew" class="alert alert-success" role="alert">
+        <strong>All set!</strong> Please login with your account
+      </div>
+      <br />
+      <h2>Login</h2>
     </div>
-</div>
+  </div>
   <div class="row">
     <div class="col-md-6">
-        <form #f="ngForm" novalidate (ngSubmit)="login(f)">           
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input id="email" type="text" required name="email" class="form-control" placeholder="Email" [ngModel]="credentials.email" #email="ngModel" tmFocus validateEmail>
-              <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">Please enter a valid email</small>
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" required name="password" placeholder="Password" ngModel>
-            </div> 
-            <br />          
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary" [disabled]="f.invalid || isRequesting">Login</button>
-                <!--<app-spinner [isRunning]="isRequesting"></app-spinner>-->
-            </div>
-            <div *ngIf="errors" class="alert alert-danger" role="alert">
-                <strong>Oops!</strong> {{errors}}
-              </div>             
-          </form>
-     </div>
+      <form #f="ngForm" novalidate (ngSubmit)="login(f)">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" #email="ngModel" id="email" [class.is-invalid]="email.invalid && email.touched" required
+            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control" name="email" placeholder="Email"
+            [ngModel]="credentials.email" />
+          <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">Please enter a valid
+            email</small>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" #password="ngModel" class="form-control" id="password"
+            [class.is-invalid]="password.invalid && password.touched" name="password" placeholder="Password"
+            [ngModel]="credentials.password" required/>
+          <small [hidden]="password.valid || (password.pristine && !submitted)" class="text-danger">Please enter a
+            password</small>
+        </div>
+        <br />
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" [disabled]="f.invalid || isRequesting">Login</button>
+        </div>
+        <div *ngIf="errors" class="alert alert-danger" role="alert">
+          <strong>Oops!</strong> {{errors}}
+        </div>
+      </form>
+    </div>
   </div>
 </div>

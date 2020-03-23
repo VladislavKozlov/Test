@@ -29,30 +29,48 @@
   </div>
   <div class="row">
     <div class="col-md-6">
-        <form #f="ngForm" novalidate (ngSubmit)="registerUser(f)">
-          <br />          
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input id="email" type="text" required name="email" validateEmail class="form-control" placeholder="Email" ngModel  #email="ngModel">
-              <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">Please enter a valid email</small>
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" name="password" placeholder="Password" ngModel>
-            </div>   
-            <div class="form-group">
-               <label for="confirmPassword">Confirm Password</label>
-               <input type="password" class="form-control" id="confirmPassword" placeholder="confirmPassword"  required name="confirmPassword" ngModel>              
-            </div>
-            <br />
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary" [disabled]="f.invalid || isRequesting">Sign Up</button>
-                <!--<app-spinner [isRunning]="isRequesting"></app-spinner>-->
-            </div> 
-            <div *ngIf="errors" class="alert alert-danger" role="alert">
-                <strong>Oops!</strong> {{errors}}
-              </div>                           
-          </form>
-     </div>
+      <form #f="ngForm" novalidate (ngSubmit)="registerUser(f)">
+        <br />
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" #email="ngModel" id="email" [class.is-invalid]="email.invalid && email.touched" required
+            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control" name="email" placeholder="Email"
+            [ngModel]="registrationValue.email" />
+          <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">Please enter a valid
+            email</small>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" #password="ngModel" class="form-control" id="password"
+            [class.is-invalid]="password.invalid && password.touched" name="password" placeholder="Password"
+            [ngModel]="registrationValue.password" required />
+          <small [hidden]="password.valid || (password.pristine && !submitted)" class="text-danger">Please enter a
+            password</small>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" #confirmPassword="ngModel" class="form-control" id="confirmPassword"
+            [class.is-invalid]="confirmPassword.invalid && confirmPassword.touched" name="confirmPassword"
+            placeholder="Confirm Password" [(ngModel)]="registrationValue.confirmPassword"
+            (keyup)="checkValidConfirmPassword(password.value, confirmPassword.value)" required />
+          <div
+            *ngIf="confirmPassword.errors && (confirmPassword.invalid || confirmPassword.touched) || !isValidConfirmPassword">
+            <small class="text-danger"
+              *ngIf="!isValidConfirmPassword && !confirmPassword.valid && confirmPassword.touched">Please
+              enter a confirm password</small>
+            <small class="text-danger" *ngIf="!isValidConfirmPassword && confirmPassword.valid">The password and
+              password confirmation
+              must match</small>
+          </div>
+        </div>
+        <br />
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" [disabled]="f.invalid || isRequesting">Sign Up</button>
+        </div>
+        <div *ngIf="errors" class="alert alert-danger" role="alert">
+          <strong>Oops!</strong> {{errors}}
+        </div>
+      </form>
+    </div>
   </div>
 </div>

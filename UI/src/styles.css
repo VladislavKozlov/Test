@@ -5,7 +5,7 @@ body, html {
     background: #e9ecef;
 }
 
-img.cursor-pointer,  a.cursor-pointer, th.cursor-pointer {
+.cursor-pointer {
     cursor: pointer;
 }
 

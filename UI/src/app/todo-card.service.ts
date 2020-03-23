@@ -12,7 +12,7 @@ export class TodoCardService {
     })
   };
 
-  baseApiUrl: string = "http://k2vtodo.somee.com/api/tasks";
+  baseApiUrl: string = "http://localhost:59863/api/tasks";
 
   constructor(private http: HttpClient) { }
 

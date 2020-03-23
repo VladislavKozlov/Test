@@ -25,12 +25,12 @@ export class UserService extends BaseService {
     super();
     this.loggedIn = !!localStorage.getItem('auth_token');
     this._authNavStatusSource.next(this.loggedIn);
-    this.baseUrl = "http://k2vtodo.somee.com/api/account";
+    this.baseUrl = "http://localhost:59863/api/account";
   }
 
-  register(email: string, password: string, confirmPassword: string) {
+  register(email: string, password: string) {
     return this.http.post(this.baseUrl + "/register",
-      JSON.stringify({ email, password, confirmPassword }), this.httpOptions)
+      JSON.stringify({ email, password }), this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 
@@ -44,7 +44,7 @@ export class UserService extends BaseService {
         this.loggedIn = true;
         this._authNavStatusSource.next(true);
         return true;
-      }), catchError(catchError(this.handleError))); 
+      }), catchError(catchError(this.handleError)));
   }
 
   logout() {
