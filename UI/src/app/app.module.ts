@@ -5,7 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DragulaModule } from 'ng2-dragula';
+import { UserService } from './user.service';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HeaderComponent } from './components/header/header.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { TodolistComponent } from './components/todolist/todolist.component';
@@ -18,6 +20,7 @@ import { ConfirmationDialogService } from './components/confirmation-dialog/conf
     BrowserModule,
     DragulaModule.forRoot(),
     NgbModule,
+    UserService,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
@@ -25,6 +28,7 @@ import { ConfirmationDialogService } from './components/confirmation-dialog/conf
   ],
   declarations: [
     AppComponent,
+    HeaderComponent,
     RegisterComponent,
     LoginComponent,
     TodolistComponent,

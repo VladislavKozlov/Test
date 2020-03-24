@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { BaseService } from "./base.service";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
+import { RouterModule } from '@angular/router';
 
+
+@NgModule({
+  exports: [RouterModule]
+})
 @Injectable()
 export class UserService extends BaseService {
   private httpOptions = {
@@ -25,7 +31,7 @@ export class UserService extends BaseService {
     super();
     this.loggedIn = !!localStorage.getItem('auth_token');
     this._authNavStatusSource.next(this.loggedIn);
-    this.baseUrl = "http://localhost:59863/api/account";
+    this.baseUrl = "http://k2vtodo.somee.com/api/account";
   }
 
   register(email: string, password: string) {

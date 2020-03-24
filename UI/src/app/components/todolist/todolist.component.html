@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark">
-	<div class="container">
+	<div *ngIf="navStatus" class="container">
 		<a routerLink="/todolist" class="navbar-brand">Todo UI</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTodolist"
 			aria-controls="navbarTodolist" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,20 +15,23 @@
 				<input class="form-control" type="text" placeholder="Search" aria-label="Search">
 			</form>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a routerLink="/register" id="registerLink" class="nav-link" >Register</a></li>
-				<li><a routerLink="/login" id="loginLink" class="nav-link">SignIn</a></li>
+				<li class="nav-item">
+				</li>
+				<li class="nav-item cursor-pointer">
+					<a class="nav-link" (click)="logout()">Logoff</a>
+				</li>
 			</ul>
 		</div>
 	</div>
 </nav>
-<div class="container">
+<div *ngIf="navStatus" class="container">
 	<div class="row">
 		<div class="button-container">
-			<a type="button" class="btn btn-primary" (click)="open(content)">Add</a>
+			<a type="button" class="btn btn-primary add" (click)="open(content)">Add</a>
 		</div>
 	</div>
 </div>
-<div class="container">
+<div *ngIf="navStatus" class="container">
 	<div class="row">
 		<div class="col-md-4 border border-right-0 border-dark p-0 m-0" dragula="Spill">
 			<div class="card border border-top-0 border-right-0 border-left-0 border-dark rounded-0">
@@ -134,6 +137,11 @@
 		</div>
 	</div>
 </div>
+<div *ngIf="!navStatus" class="container">
+	<div class="alert alert-danger" role="alert">
+		<strong>Please register ...</strong>
+	</div>
+</div>
 <ng-template #content bs-modal>
 	<div class="modal-header">
 		<h4 class="modal-title" id="modal-basic-title">{{ modalTitle }}</h4>
@@ -161,7 +169,8 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="button" ngbAutofocus class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Close</button>
+		<button type="button" ngbAutofocus class="btn btn-secondary"
+			(click)="modal.dismiss('Cross click')">Close</button>
 		<button type="button" class="btn btn-outline-dark" (click)="prepareAddAndEditTodoCard()">Save</button>
 	</div>
 </ng-template>

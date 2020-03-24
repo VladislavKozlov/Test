@@ -6,7 +6,7 @@ import { TodolistComponent } from './components/todolist/todolist.component';
 import { ArchivetasksComponent } from './components/archivetasks/archivetasks.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/todolist', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'todolist', component: TodolistComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },

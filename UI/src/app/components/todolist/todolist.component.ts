@@ -1,7 +1,10 @@
 import { Component, ViewChild, Output, Input, TemplateRef } from '@angular/core';
-import { OnInit } from '@angular/core';
+import { OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { TodoCard } from './../../models/todoCard';
 import { TodoCardService } from './../../todo-card.service';
+import { UserService } from './../../user.service';
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 
@@ -12,7 +15,7 @@ import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-d
   providers: [TodoCardService, NgbActiveModal]
 })
 
-export class TodolistComponent implements OnInit {
+export class TodolistComponent implements OnInit, OnDestroy {
 
   title = 'Todo UI';
   cardsAll: Array<TodoCard>;
@@ -34,6 +37,8 @@ export class TodolistComponent implements OnInit {
   @ViewChild("modal") public modal: NgbModalRef;
   @ViewChild('content') editModal: TemplateRef<any>;
 
+  navStatus: boolean;
+  subscription: Subscription;
   status: number = 0;
   failedTaskName = false;
   failedDescription = false;
@@ -46,7 +51,7 @@ export class TodolistComponent implements OnInit {
   str: string;
 
   constructor(private todoCardService: TodoCardService, private modalService: NgbModal, public activeModal: NgbActiveModal,
-    private confirmationDialogService: ConfirmationDialogService) {
+    private confirmationDialogService: ConfirmationDialogService, private userService: UserService, private router: Router) {
   }
 
   public renderCards() {
@@ -173,7 +178,19 @@ export class TodolistComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.subscription = this.userService.authNavStatus$.subscribe(navStatus => this.navStatus = navStatus);
+    console.log("navStatus = " + this.navStatus)
     this.renderCards();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  logout() {
+    this.userService.logout();
+    this.router.navigate(['/login']);
+    this.navStatus = false;
   }
 
   public valueChangeTaskName() {

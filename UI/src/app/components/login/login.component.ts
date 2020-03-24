@@ -8,8 +8,7 @@ import { UserService } from './../../user.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  providers: [UserService]
+  styleUrls: ['./login.component.css']
 })
 
 export class LoginComponent implements OnInit, OnDestroy {
@@ -25,7 +24,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-
     //subscribe to router event
     this.subscription = this.activatedRoute.queryParams.subscribe(
       (param: any) => {
@@ -37,6 +35,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     // prevent memory leak by unsubscribing
     this.subscription.unsubscribe();
+  }
+
+  touchedPassword() {
+    this.isRequesting = false;
   }
 
   public login({ value, valid }: { value: UserLogin, valid: boolean }) {
