@@ -1,9 +1,10 @@
 ﻿using API.Auth;
+using API.DAL;
 using API.Helpers;
 using API.Models;
+using API.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Security.Claims;
@@ -14,16 +15,14 @@ namespace API.Controllers
     [Route("api/[controller]/[action]")]
     public class AccountController : Controller
     {
-        private readonly AppUserDbContext _appUserDbContext;
-        private readonly UserManager<AppUser> _userManager;
+        private readonly IUserService _userService;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
         public readonly IPasswordHasher<AppUser> _passwordHasher;
 
-        public AccountController(AppUserDbContext appUserDbContext, UserManager<AppUser> userManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions, IPasswordHasher<AppUser> passwordHasher)
+        public AccountController(IUserService userService, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions, IPasswordHasher<AppUser> passwordHasher)
         {
-            _appUserDbContext = appUserDbContext;
-            _userManager = userManager;
+            _userService = userService;
             _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions.Value;
             _passwordHasher = passwordHasher;
@@ -35,7 +34,7 @@ namespace API.Controllers
             {
                 return await Task.FromResult<ClaimsIdentity>(null);
             }
-            var emailToVerify = await _appUserDbContext.AspNetUsers.FirstOrDefaultAsync(x => x.Email == email);
+            var emailToVerify = await _userService.GetByEmail(email);
             var checkPassword = _passwordHasher.VerifyHashedPassword(null, emailToVerify.Password, password);
             if (checkPassword == 0)
             {
@@ -59,7 +58,6 @@ namespace API.Controllers
             {
                 return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
             }
-
             var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, model.Email, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
             return new OkObjectResult(jwt);
         }
@@ -69,12 +67,11 @@ namespace API.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppUser appUser = await _appUserDbContext.AspNetUsers.FirstOrDefaultAsync(u => u.Email == model.Email);
+                AppUser appUser = await _userService.GetByEmail(model.Email);
                 if (appUser == null)
                 {
                     var hashedPassword = _passwordHasher.HashPassword(null, model.Password);
-                    _appUserDbContext.AspNetUsers.Add(new AppUser { UserName = model.Email, Email = model.Email, Password = hashedPassword });
-                    await _appUserDbContext.SaveChangesAsync();
+                    await _userService.Add(new AppUser { UserName = model.Email, Email = model.Email, Password = hashedPassword });
                     return Json("Account created");
                 }
             }
@@ -83,6 +80,17 @@ namespace API.Controllers
                 return BadRequest(Errors.AddErrorToModelState("Register_failure", "Invalid username or password.", ModelState));
             }
             return NoContent();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            var user = await _userService.GetById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Json(user.UserName);
         }
     }
 }

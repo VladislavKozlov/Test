@@ -37,7 +37,8 @@ export class TodolistComponent implements OnInit, OnDestroy {
   @ViewChild("modal") public modal: NgbModalRef;
   @ViewChild('content') editModal: TemplateRef<any>;
 
-  navStatus: boolean;
+  navStatus: boolean = false;;
+  userName: string = '';
   subscription: Subscription;
   status: number = 0;
   failedTaskName = false;
@@ -179,12 +180,18 @@ export class TodolistComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.userService.authNavStatus$.subscribe(navStatus => this.navStatus = navStatus);
-    console.log("navStatus = " + this.navStatus)
-    this.renderCards();
+    if (this.navStatus) {
+      this.userName = localStorage.getItem('user_name');
+      console.log("userName = " + this.userName);
+      console.log("navStatus = " + this.navStatus);
+      this.renderCards();
+    }
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.navStatus = false;
+    this.userName = '';
   }
 
   logout() {

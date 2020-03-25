@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { TodoCard } from './../../models/todoCard';
+import { UserService } from './../../user.service';
 import { TodoCardService } from './../../todo-card.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'archivetasks-todolist',
@@ -13,6 +15,9 @@ import { TodoCardService } from './../../todo-card.service';
 export class ArchivetasksComponent implements OnInit {
 
   title = 'Todo UI';
+  navStatus: boolean = false;
+  userName: string = '';
+  subscription: Subscription;
   cardsAll: Array<TodoCard>;
   cardsArchive: Array<TodoCard>;
   cardsArchiveSort: Array<TodoCard>;
@@ -23,7 +28,7 @@ export class ArchivetasksComponent implements OnInit {
   isAscDescription = false;
   isAscDate = false;
 
-  constructor(private todoCardService: TodoCardService) { }
+  constructor(private todoCardService: TodoCardService, private userService: UserService) { }
 
   public renderArchiveCards() {
     this.todoCardService.getAll().subscribe((data: Array<TodoCard>) => {
@@ -33,7 +38,19 @@ export class ArchivetasksComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.renderArchiveCards();
+    this.subscription = this.userService.authNavStatus$.subscribe(navStatus => this.navStatus = navStatus);
+    if (this.navStatus) {
+      this.userName = localStorage.getItem('user_name');
+      console.log("userName = " + this.userName);
+      console.log("navStatus = " + this.navStatus);
+      this.renderArchiveCards();
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.navStatus = false;
+    this.userName = '';
   }
 
   public sortTitle() {

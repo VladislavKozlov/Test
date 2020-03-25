@@ -1,9 +1,9 @@
 ﻿using API.Auth;
+using API.DAL;
 using API.Helpers;
 using API.Models;
 using API.Services;
 using DAL;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,11 +32,8 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDbContext<AppUserDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
-               // b => b.MigrationsAssembly("API")));
-            services.AddDbContext<AppUserDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
-            services.AddIdentityCore<AppUser>() 
+            services.AddIdentityCore<AppUser>()
                         .AddEntityFrameworkStores<ApplicationDbContext>()
                         .AddDefaultUI()
                         .AddDefaultTokenProviders();
@@ -93,9 +90,10 @@ namespace API
             });
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
             builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-                             
+
             services.AddSingleton<IJwtFactory, JwtFactory>();
             services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddCors();
             services.AddMvc();
         }

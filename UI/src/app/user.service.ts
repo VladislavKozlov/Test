@@ -19,6 +19,7 @@ export class UserService extends BaseService {
   };
 
   baseUrl: string = '';
+  userName: string = '';
 
   // Observable navItem source
   private _authNavStatusSource = new BehaviorSubject<boolean>(false);
@@ -34,6 +35,15 @@ export class UserService extends BaseService {
     this.baseUrl = "http://k2vtodo.somee.com/api/account";
   }
 
+  getUserName() {
+    var userId = localStorage.getItem('user_id');
+    if (userId != undefined) {
+      return this.http
+        .get(this.baseUrl + '/get/' + userId)
+        .pipe(catchError(this.handleError));
+    }
+  }
+
   register(email: string, password: string) {
     return this.http.post(this.baseUrl + "/register",
       JSON.stringify({ email, password }), this.httpOptions)
@@ -45,8 +55,9 @@ export class UserService extends BaseService {
       .post(
         this.baseUrl + '/login',
         JSON.stringify({ email, password }), this.httpOptions
-      ).pipe(map((res: { auth_token: string; }) => {
+      ).pipe(map((res: { auth_token: string; id: string }) => {
         localStorage.setItem('auth_token', res.auth_token);
+        localStorage.setItem('user_id', res.id);
         this.loggedIn = true;
         this._authNavStatusSource.next(true);
         return true;
@@ -55,6 +66,8 @@ export class UserService extends BaseService {
 
   logout() {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('user_name');
     this.loggedIn = false;
     this._authNavStatusSource.next(false);
   }
@@ -62,6 +75,5 @@ export class UserService extends BaseService {
   isLoggedIn() {
     return this.loggedIn;
   }
-
 }
 

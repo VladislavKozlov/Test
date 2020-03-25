@@ -50,7 +50,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         .subscribe(
           result => {
             if (result) {
-              this.router.navigate(['/todolist']);
+              this.userService.getUserName().subscribe((data: JSON) => {
+                var nameJson = JSON.stringify(data);
+                localStorage.setItem('user_name', JSON.parse(nameJson));
+                this.router.navigate(['/todolist']);
+              });
             }
           },
           error => this.errors = error);
