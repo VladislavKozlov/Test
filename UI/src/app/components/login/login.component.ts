@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isRequesting = false;
   }
 
-  public login({ value, valid }: { value: UserLogin, valid: boolean }) {
+  login({ value, valid }: { value: UserLogin, valid: boolean }) {
     this.submitted = true;
     this.isRequesting = true;
     this.errors = '';

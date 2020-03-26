@@ -16,7 +16,6 @@ export class ArchivetasksComponent implements OnInit {
 
   title = 'Todo UI';
   navStatus: boolean = false;
-  userName: string = '';
   subscription: Subscription;
   cardsAll: Array<TodoCard>;
   cardsArchive: Array<TodoCard>;
@@ -40,9 +39,6 @@ export class ArchivetasksComponent implements OnInit {
   ngOnInit(): void {
     this.subscription = this.userService.authNavStatus$.subscribe(navStatus => this.navStatus = navStatus);
     if (this.navStatus) {
-      this.userName = localStorage.getItem('user_name');
-      console.log("userName = " + this.userName);
-      console.log("navStatus = " + this.navStatus);
       this.renderArchiveCards();
     }
   }
@@ -50,7 +46,6 @@ export class ArchivetasksComponent implements OnInit {
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.navStatus = false;
-    this.userName = '';
   }
 
   public sortTitle() {

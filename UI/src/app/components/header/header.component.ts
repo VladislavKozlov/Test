@@ -11,7 +11,8 @@ import { UserService } from '../../user.service';
 
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  navStatus: boolean;
+  navStatus: boolean = false;
+  userName: string = '';
   subscription: Subscription;
 
   constructor(private userService: UserService, private router: Router) {
@@ -20,13 +21,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
   logout() {
     this.userService.logout();
     this.router.navigate(['/login']);
+    this.navStatus = false;
   }
 
   ngOnInit() {
     this.subscription = this.userService.authNavStatus$.subscribe(navStatus => this.navStatus = navStatus);
+    if (this.navStatus) {
+      this.userName = localStorage.getItem('user_name');
+    }
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.navStatus = false;
+    this.userName = '';
   }
 }

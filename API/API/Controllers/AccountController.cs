@@ -49,17 +49,16 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult> Login([FromBody] AppUser model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var identity = await GetClaimsIdentity(model.Email, model.Password);
+                if (identity != null)
+                {
+                    var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, model.Email, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
+                    return new OkObjectResult(jwt);
+                }
             }
-            var identity = await GetClaimsIdentity(model.Email, model.Password);
-            if (identity == null)
-            {
-                return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
-            }
-            var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, model.Email, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
-            return new OkObjectResult(jwt);
+            return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
         }
 
         [HttpPost]
@@ -75,11 +74,7 @@ namespace API.Controllers
                     return Json("Account created");
                 }
             }
-            else
-            {
-                return BadRequest(Errors.AddErrorToModelState("Register_failure", "Invalid username or password.", ModelState));
-            }
-            return NoContent();
+            return BadRequest(Errors.AddErrorToModelState("Register_failure", "Email is already in use.", ModelState));
         }
 
         [HttpGet("{id}")]

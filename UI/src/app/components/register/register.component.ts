@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
   isRequesting: boolean;
   isValidConfirmPassword: boolean = false;
   registrationValue: UserRegistration = { email: '', password: '', confirmPassword: '' };
-  
+
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
@@ -26,8 +26,6 @@ export class RegisterComponent implements OnInit {
 
   checkValidConfirmPassword(password: string, confirmPassword: string) {
     if (confirmPassword == password || confirmPassword == '') {
-      console.log("password = " + password);
-      console.log("confirmPassword = " + confirmPassword);
       this.isValidConfirmPassword = true;
     } else {
       this.isValidConfirmPassword = false;
