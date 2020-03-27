@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.DAL
 {
+    [Table("AspNetUsers")]
     public class AppUser : IdentityUser
     {
-        public override string Email { get; set; }
         public string Password { get; set; }
     }
 }

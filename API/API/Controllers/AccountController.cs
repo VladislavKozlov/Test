@@ -19,8 +19,12 @@ namespace API.Controllers
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
         public readonly IPasswordHasher<AppUser> _passwordHasher;
+        public readonly UserManager<AppUser> _userManager;
 
-        public AccountController(IUserService userService, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions, IPasswordHasher<AppUser> passwordHasher)
+        public AccountController(IUserService userService,
+            IJwtFactory jwtFactory,
+            IOptions<JwtIssuerOptions> jwtOptions,
+            IPasswordHasher<AppUser> passwordHasher)
         {
             _userService = userService;
             _jwtFactory = jwtFactory;
@@ -34,15 +38,16 @@ namespace API.Controllers
             {
                 return await Task.FromResult<ClaimsIdentity>(null);
             }
-            var emailToVerify = await _userService.GetByEmail(email);
-            var checkPassword = _passwordHasher.VerifyHashedPassword(null, emailToVerify.Password, password);
+            var userToVerify = await _userService.GetByEmail(email);
+            if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
+            var checkPassword = _passwordHasher.VerifyHashedPassword(null, userToVerify.Password, password);
             if (checkPassword == 0)
             {
                 return await Task.FromResult<ClaimsIdentity>(null);
             }
             else
             {
-                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(email, emailToVerify.Id));
+                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(email, userToVerify.Id));
             }
         }
 
@@ -66,11 +71,10 @@ namespace API.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppUser appUser = await _userService.GetByEmail(model.Email);
-                if (appUser == null)
+                var hashedPassword = _passwordHasher.HashPassword(null, model.Password);
+                var result = await _userService.CreateUser(model, hashedPassword);
+                if (result)
                 {
-                    var hashedPassword = _passwordHasher.HashPassword(null, model.Password);
-                    await _userService.Add(new AppUser { UserName = model.Email, Email = model.Email, Password = hashedPassword });
                     return Json("Account created");
                 }
             }

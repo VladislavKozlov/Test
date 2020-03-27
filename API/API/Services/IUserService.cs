@@ -7,6 +7,6 @@ namespace API.Services
     {
         Task<AppUser> GetByEmail(string email);
         Task<AppUser> GetById(string id);
-        Task<string> Add(AppUser appUser);
+        Task<bool> CreateUser(AppUser appUser, string hashedPassword);
     }
 }

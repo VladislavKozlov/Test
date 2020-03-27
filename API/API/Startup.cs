@@ -31,7 +31,7 @@ namespace API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("DAL")));
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
             services.AddIdentityCore<AppUser>()
                         .AddEntityFrameworkStores<ApplicationDbContext>()

@@ -27,7 +27,7 @@ namespace API.Auth
                  new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
                  identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol),
                  identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Id)
-             };
+            };
 
             var jwt = new JwtSecurityToken(
                 issuer: _jwtOptions.Issuer,
@@ -38,7 +38,6 @@ namespace API.Auth
                 signingCredentials: _jwtOptions.SigningCredentials);
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
             return encodedJwt;
         }
 
@@ -51,10 +50,8 @@ namespace API.Auth
             });
         }
 
-        private static long ToUnixEpochDate(DateTime date)
-          => (long)Math.Round((date.ToUniversalTime() -
-                               new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))
-                              .TotalSeconds);
+        private static long ToUnixEpochDate(DateTime date) => (long)Math.Round((date.ToUniversalTime() -
+            new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
 
         private static void ThrowIfInvalidOptions(JwtIssuerOptions options)
         {

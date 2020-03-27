@@ -1,36 +1,42 @@
 ﻿using API.DAL;
-using DAL;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
 namespace API.Services
 {
     public class UserService : IUserService
     {
-        private ApplicationDbContext _dbContext;
+        public readonly UserManager<AppUser> _userManager;
 
-        public UserService(ApplicationDbContext dbContext)
+        public UserService(UserManager<AppUser> userManager)
         {
-            _dbContext = dbContext;
+            _userManager = userManager;
         }
 
         public async Task<AppUser> GetByEmail(string email)
         {
-            AppUser appUser = await _dbContext.AspNetUsers.FirstOrDefaultAsync(u => u.Email == email);
+            var appUser = await _userManager.FindByNameAsync(email);
             return appUser;
         }
 
         public async Task<AppUser> GetById(string id)
         {
-            AppUser appUser = await _dbContext.AspNetUsers.FirstOrDefaultAsync(u => u.Id == id);
+            var appUser = await _userManager.FindByIdAsync(id);
             return appUser;
         }
 
-        public async Task<string> Add(AppUser appUser)
+        public async Task<bool> CreateUser(AppUser appUser, string hashedPassword)
         {
-            _dbContext.AspNetUsers.Add(appUser);
-            await _dbContext.SaveChangesAsync();
-            return appUser.Id;
+            var user = new AppUser { UserName = appUser.Email, Email = appUser.Email, Password = hashedPassword };
+            var result = await _userManager.CreateAsync(user);
+            if (result.Succeeded)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
