@@ -1,4 +1,4 @@
-import { Component, ViewChild, Output, Input, TemplateRef } from '@angular/core';
+import { Component, ViewChild, Output, Input, TemplateRef, HostListener } from '@angular/core';
 import { OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -49,6 +49,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
   id: number = 0;
   createDate: string;
   str: string;
+  searchValue: string = '';
 
   constructor(private todoCardService: TodoCardService, private modalService: NgbModal, public activeModal: NgbActiveModal,
     private confirmationDialogService: ConfirmationDialogService, private userService: UserService, private router: Router) {
@@ -135,7 +136,6 @@ export class TodolistComponent implements OnInit, OnDestroy {
   }
 
   public openConfirmationDialog(id: number) {
-    console.log("id = " + id);
     this.confirmationDialogService.confirm('Please confirm..', 'Do you really want to delete this?')
       .then((result) => {
         console.log('User confirmed:', result),
@@ -145,7 +145,6 @@ export class TodolistComponent implements OnInit, OnDestroy {
   }
 
   public removeTodoCard(id: number) {
-    console.log("id = " + id);
     this.todoCardService.remove(id).subscribe(
       (data: number) => {
         id = data;
@@ -177,10 +176,19 @@ export class TodolistComponent implements OnInit, OnDestroy {
     this.modalTitle = "Add Task";
   }
 
+  @HostListener('document:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    this.searchValue = localStorage.getItem('search_value');
+    console.log("search = " + this.searchValue);
+  }
+
   ngOnInit() {
     this.subscription = this.userService.authNavStatus$.subscribe(navStatus => this.navStatus = navStatus);
     if (this.navStatus) {
       this.renderCards();
+    }
+    else {
+      this.router.navigate(['/login']);
     }
   }
 

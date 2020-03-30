@@ -18,16 +18,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let card of cardsArchive">
+      <tr *ngFor="let card of cardsArchive | filter:searchValue">
         <td>{{card.taskName}}</td>
         <td>{{card.description}}</td>
         <td>{{card.createDate | date:'dd-MM-yyyy HH-mm'}}</td>
       </tr>
     </tbody>
   </table>
-</div>
-<div *ngIf="!navStatus" class="container">
-  <div class="alert alert-danger" role="alert">
-    <strong>Please register ...</strong>
-  </div>
 </div>

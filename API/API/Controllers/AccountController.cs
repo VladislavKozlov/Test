@@ -23,13 +23,11 @@ namespace API.Controllers
 
         public AccountController(IUserService userService,
             IJwtFactory jwtFactory,
-            IOptions<JwtIssuerOptions> jwtOptions,
-            IPasswordHasher<AppUser> passwordHasher)
+            IOptions<JwtIssuerOptions> jwtOptions)
         {
             _userService = userService;
             _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions.Value;
-            _passwordHasher = passwordHasher;
         }
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string email, string password)
@@ -40,7 +38,7 @@ namespace API.Controllers
             }
             var userToVerify = await _userService.GetByEmail(email);
             if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
-            var checkPassword = _passwordHasher.VerifyHashedPassword(null, userToVerify.Password, password);
+            var checkPassword = _userService.CheckPassword(userToVerify.PasswordHash, password);
             if (checkPassword == 0)
             {
                 return await Task.FromResult<ClaimsIdentity>(null);
@@ -52,7 +50,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Login([FromBody] AppUser model)
+        public async Task<ActionResult> Login([FromBody] LoginModel model)
         {
             if (ModelState.IsValid)
             {
@@ -67,12 +65,11 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Register([FromBody] AppUser model)
+        public async Task<ActionResult> Register([FromBody] RegisterModel registerModel)
         {
             if (ModelState.IsValid)
             {
-                var hashedPassword = _passwordHasher.HashPassword(null, model.Password);
-                var result = await _userService.CreateUser(model, hashedPassword);
+                var result = await _userService.CreateUser(registerModel);
                 if (result)
                 {
                     return Json("Account created");

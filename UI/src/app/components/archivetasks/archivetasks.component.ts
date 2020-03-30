@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TodoCard } from './../../models/todoCard';
 import { UserService } from './../../user.service';
 import { TodoCardService } from './../../todo-card.service';
@@ -26,8 +27,9 @@ export class ArchivetasksComponent implements OnInit {
   isAscTaskName = false;
   isAscDescription = false;
   isAscDate = false;
+  searchValue: string = '';
 
-  constructor(private todoCardService: TodoCardService, private userService: UserService) { }
+  constructor(private todoCardService: TodoCardService, private userService: UserService, private router: Router) { }
 
   public renderArchiveCards() {
     this.todoCardService.getAll().subscribe((data: Array<TodoCard>) => {
@@ -36,10 +38,18 @@ export class ArchivetasksComponent implements OnInit {
     });
   }
 
+  @HostListener('document:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    this.searchValue = localStorage.getItem('search_value');
+  }
+
   ngOnInit(): void {
     this.subscription = this.userService.authNavStatus$.subscribe(navStatus => this.navStatus = navStatus);
+    localStorage.setItem('search_value', '');
     if (this.navStatus) {
       this.renderArchiveCards();
+    } else {
+      this.router.navigate(['/login']);
     }
   }
 

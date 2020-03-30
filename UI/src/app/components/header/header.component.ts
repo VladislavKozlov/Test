@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   navStatus: boolean = false;
   userName: string = '';
   subscription: Subscription;
+  search: string = '';
 
   constructor(private userService: UserService, private router: Router) {
   }
@@ -35,5 +36,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
     this.navStatus = false;
     this.userName = '';
+    localStorage.removeItem('search_value');
+  }
+
+  public valueChangeSearch() {
+    localStorage.setItem('search_value', this.search);
   }
 }

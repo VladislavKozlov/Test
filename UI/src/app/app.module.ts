@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DragulaModule } from 'ng2-dragula';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { UserService } from './user.service';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './components/header/header.component';
@@ -19,6 +20,7 @@ import { ConfirmationDialogService } from './components/confirmation-dialog/conf
   imports: [
     BrowserModule,
     DragulaModule.forRoot(),
+    Ng2SearchPipeModule,
     NgbModule,
     UserService,
     FormsModule,

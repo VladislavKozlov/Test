@@ -16,7 +16,7 @@
 					</div>
 				</div>
 			</div>
-			<div *ngFor="let card of cardsTodo" class="card border border-dark p-1 m-1">
+			<div *ngFor="let card of cardsTodo | filter:searchValue" class="card border border-dark p-1 m-1">
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-4">
@@ -50,7 +50,7 @@
 					</div>
 				</div>
 			</div>
-			<div *ngFor="let card of cardsInProgress" class="card border border-dark p-1 m-1">
+			<div *ngFor="let card of cardsInProgress | filter:searchValue" class="card border border-dark p-1 m-1">
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-4">
@@ -84,7 +84,7 @@
 					</div>
 				</div>
 			</div>
-			<div *ngFor="let card of cardsDone" class="card border border-dark p-1 m-1">
+			<div *ngFor="let card of cardsDone | filter:searchValue" class="card border border-dark p-1 m-1">
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-4">
@@ -110,11 +110,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
-<div *ngIf="!navStatus" class="container">
-	<div class="alert alert-danger" role="alert">
-		<strong>Please register ...</strong>
 	</div>
 </div>
 <ng-template #content bs-modal>

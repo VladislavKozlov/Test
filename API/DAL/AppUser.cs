@@ -6,6 +6,5 @@ namespace API.DAL
     [Table("AspNetUsers")]
     public class AppUser : IdentityUser
     {
-        public string Password { get; set; }
     }
 }
