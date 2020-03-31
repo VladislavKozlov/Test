@@ -1,4 +1,5 @@
 ﻿using API.DAL;
+using API.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 

@@ -18,7 +18,6 @@ namespace API.Controllers
         private readonly IUserService _userService;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
-        public readonly IPasswordHasher<AppUser> _passwordHasher;
         public readonly UserManager<AppUser> _userManager;
 
         public AccountController(IUserService userService,

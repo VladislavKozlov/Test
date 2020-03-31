@@ -88,6 +88,9 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
+                    b.Property<string>("UserName")
+                        .HasMaxLength(100);
+
                     b.HasKey("Id");
 
                     b.ToTable("Tasks");

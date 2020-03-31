@@ -39,7 +39,6 @@ namespace API.Services
             todoCardToUpdate.TaskName = todoCard.TaskName;
             todoCardToUpdate.Description = todoCard.Description;
             todoCardToUpdate.Status = todoCard.Status;
-            todoCardToUpdate.CreateDate = todoCard.CreateDate;
             await _dbContext.SaveChangesAsync();
             return await _dbContext.Tasks.FirstOrDefaultAsync(p => p.Id == todoCard.Id);
         }

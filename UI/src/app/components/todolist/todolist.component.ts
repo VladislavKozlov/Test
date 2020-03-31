@@ -28,6 +28,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
     id: 0,
     taskName: '',
     description: '',
+    userName: '',
     status: 0,
     createDate: ''
   };
@@ -46,6 +47,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
   errorMessageDescription = '';
   taskName = '';
   description = '';
+  userName = '';
   id: number = 0;
   createDate: string;
   str: string;
@@ -58,9 +60,9 @@ export class TodolistComponent implements OnInit, OnDestroy {
   public renderCards() {
     this.todoCardService.getAll().subscribe((data: Array<TodoCard>) => {
       this.cardsAll = data;
-      this.cardsTodo = this.cardsAll.filter(x => x.status === 0);
-      this.cardsInProgress = this.cardsAll.filter(x => x.status === 1);
-      this.cardsDone = this.cardsAll.filter(x => x.status === 2);
+      this.cardsTodo = this.cardsAll.filter(x => x.status === 0 && x.userName === this.userName);
+      this.cardsInProgress = this.cardsAll.filter(x => x.status === 1 && x.userName === this.userName);
+      this.cardsDone = this.cardsAll.filter(x => x.status === 2 && x.userName === this.userName);
     });
   }
 
@@ -179,12 +181,12 @@ export class TodolistComponent implements OnInit, OnDestroy {
   @HostListener('document:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     this.searchValue = localStorage.getItem('search_value');
-    console.log("search = " + this.searchValue);
   }
 
   ngOnInit() {
     this.subscription = this.userService.authNavStatus$.subscribe(navStatus => this.navStatus = navStatus);
     if (this.navStatus) {
+      this.userName = localStorage.getItem('user_name');
       this.renderCards();
     }
     else {

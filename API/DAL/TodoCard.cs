@@ -17,6 +17,9 @@ namespace DAL
         [StringLength(1000)]
         public string Description { get; set; }
 
+        [StringLength(100)]
+        public string UserName { get; set; }
+
         [Required]
         public int Status { get; set; }
 

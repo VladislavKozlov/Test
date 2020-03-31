@@ -28,13 +28,14 @@ export class ArchivetasksComponent implements OnInit {
   isAscDescription = false;
   isAscDate = false;
   searchValue: string = '';
+  userName = '';
 
   constructor(private todoCardService: TodoCardService, private userService: UserService, private router: Router) { }
 
   public renderArchiveCards() {
     this.todoCardService.getAll().subscribe((data: Array<TodoCard>) => {
       this.cardsAll = data;
-      this.cardsArchive = this.cardsAll.filter(x => x.status === 3);
+      this.cardsArchive = this.cardsAll.filter(x => x.status === 3 && x.userName === this.userName);
     });
   }
 
@@ -47,6 +48,7 @@ export class ArchivetasksComponent implements OnInit {
     this.subscription = this.userService.authNavStatus$.subscribe(navStatus => this.navStatus = navStatus);
     localStorage.setItem('search_value', '');
     if (this.navStatus) {
+      this.userName = localStorage.getItem('user_name');
       this.renderArchiveCards();
     } else {
       this.router.navigate(['/login']);
