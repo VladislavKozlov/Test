@@ -1,9 +1,7 @@
 ﻿using API.Auth;
-using API.DAL;
 using API.Helpers;
 using API.Models;
 using API.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -18,7 +16,6 @@ namespace API.Controllers
         private readonly IUserService _userService;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
-        public readonly UserManager<AppUser> _userManager;
 
         public AccountController(IUserService userService,
             IJwtFactory jwtFactory,
