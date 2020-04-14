@@ -17,14 +17,22 @@ export class TodoCardService {
   constructor(private http: HttpClient) { }
 
   private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      console.error('An error occurred:', error.error.message);
-    } else {
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
+    var applicationError = error.headers.get('Application-Error');
+    if (applicationError) {
+      return of(applicationError);
     }
-    return of('Something bad happened; please try again later.');
+    var modelStateErrors: string = '';
+    var serverError = error.error;
+    if (!serverError.type) {
+      for (var key in serverError) {
+        if (serverError[key])
+          modelStateErrors += serverError[key] + '\n';
+      }
+    }
+    console.log("modelStateErrors = " + modelStateErrors);
+    modelStateErrors = modelStateErrors = '' ? null : modelStateErrors;
+    localStorage.setItem('modelStateErrors', modelStateErrors);
+    return of(modelStateErrors);
   };
 
   getAll() {

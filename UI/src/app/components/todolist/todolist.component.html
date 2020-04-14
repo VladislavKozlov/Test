@@ -136,6 +136,9 @@
 			<div class="invalid-feedback">
 				{{ errorMessageDescription }}
 			</div>
+			<div *ngIf="errors" class="alert alert-danger" role="alert">
+				{{modelStateErrors}}
+			</div>
 		</div>
 	</div>
 	<div class="modal-footer">

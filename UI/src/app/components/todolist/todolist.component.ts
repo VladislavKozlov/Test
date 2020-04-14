@@ -43,6 +43,8 @@ export class TodolistComponent implements OnInit, OnDestroy {
   status: number = 0;
   failedTaskName = false;
   failedDescription = false;
+  errors = false;
+  modelStateErrors = null;
   errorMessageTaskName = '';
   errorMessageDescription = '';
   taskName = '';
@@ -50,7 +52,8 @@ export class TodolistComponent implements OnInit, OnDestroy {
   userName = '';
   id: number = 0;
   createDate: string;
-  str: string;
+  strTaskName: string;
+  strDescription: string;
   searchValue: string = '';
 
   constructor(private todoCardService: TodoCardService, private modalService: NgbModal, public activeModal: NgbActiveModal,
@@ -68,11 +71,12 @@ export class TodolistComponent implements OnInit, OnDestroy {
 
   public validateModal() {
     var modalIsValid: boolean = false;
-    this.str = this.taskName;
+    this.strTaskName = this.taskName;
+    this.strDescription = this.description;
     if (this.taskName === '') {
       this.failedTaskName = true;
       this.errorMessageTaskName = "Title is required.";
-    } else if (this.str.length <= 3) {
+    } else if (this.strTaskName.length <= 3) {
       this.failedTaskName = true;
       this.errorMessageTaskName = "Title must be at least 4 characters long.";
     } else {
@@ -81,7 +85,12 @@ export class TodolistComponent implements OnInit, OnDestroy {
     if (this.description === '') {
       this.failedDescription = true;
       this.errorMessageDescription = "Description is required.";
-    } else {
+    }
+    else if (this.strDescription.length > 1000) {
+      this.failedDescription = true;
+      this.errorMessageDescription = "The field Description must be a string with a maximum length of 1000.";
+    }
+    else {
       this.failedDescription = false;
     }
     if (this.failedTaskName == false && this.failedDescription == false) {
@@ -91,6 +100,11 @@ export class TodolistComponent implements OnInit, OnDestroy {
   }
 
   public prepareAddAndEditTodoCard() {
+    if (this.errors) {
+      localStorage.removeItem('modelStateErrors');
+      this.modelStateErrors = '';
+      this.errors = false;
+    }
     if (this.validateModal()) {
       this.todoCard = new TodoCard();
       this.todoCard.id = this.id;
@@ -101,10 +115,8 @@ export class TodolistComponent implements OnInit, OnDestroy {
       this.todoCard.status = this.status;
 
       if (this.id == 0) {
-        this.closeModal();
         this.addTodoCard();
       } else {
-        this.closeModal();
         this.updateTodoCard();
       }
     }
@@ -125,7 +137,14 @@ export class TodolistComponent implements OnInit, OnDestroy {
     this.todoCardService.add(this.todoCard).subscribe(
       (data: TodoCard) => {
         this.todoCard = data;
-        this.renderCards();
+        this.modelStateErrors = localStorage.getItem('modelStateErrors');
+        if (this.modelStateErrors != null) {
+          this.errors = true;
+        }
+        else {
+          this.closeModal();
+          this.renderCards();
+        }
       }
     );
   }
@@ -134,7 +153,14 @@ export class TodolistComponent implements OnInit, OnDestroy {
     this.todoCardService.update(this.todoCard).subscribe(
       (data: TodoCard) => {
         this.todoCard = data;
-        this.renderCards();
+        this.modelStateErrors = localStorage.getItem('modelStateErrors');
+        if (this.modelStateErrors != null) {
+          this.errors = true;
+        }
+        else {
+          this.closeModal();
+          this.renderCards();
+        }
       }
     );
   }
@@ -203,6 +229,11 @@ export class TodolistComponent implements OnInit, OnDestroy {
 
   public valueChangeTaskName() {
     this.failedTaskName = false;
+    if (this.errors) {
+      localStorage.removeItem('modelStateErrors');
+      this.modelStateErrors = '';
+      this.errors = false;
+    }
   }
 
   public isfailedTaskName() {
@@ -215,6 +246,11 @@ export class TodolistComponent implements OnInit, OnDestroy {
 
   public valueChangeDescription() {
     this.failedDescription = false;
+    if (this.errors) {
+      localStorage.removeItem('modelStateErrors');
+      this.modelStateErrors = '';
+      this.errors = false;
+    }
   }
 
   public isfailedDescription() {
