@@ -34,7 +34,8 @@
           <label for="password">Password</label>
           <input type="password" #password="ngModel" class="form-control" id="password"
             [class.is-invalid]="password.invalid && password.touched" name="password" placeholder="Password"
-            [ngModel]="registrationValue.password" required />
+            [ngModel]="registrationValue.password"
+            (keyup)="checkValidConfirmPassword(password.value, confirmPassword.value)" required />
           <small [hidden]="password.valid || (password.pristine && !submitted)" class="text-danger">Please enter a
             password</small>
         </div>

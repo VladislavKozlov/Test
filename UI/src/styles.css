@@ -14,6 +14,13 @@ body, html {
     margin-bottom: 10px;
 }
 
+.registerLink {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: 0;
+}
+
 .add {
 	color: #ffff !important;
 }

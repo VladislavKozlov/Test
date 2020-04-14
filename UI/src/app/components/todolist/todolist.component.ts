@@ -97,6 +97,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
       this.todoCard.taskName = this.taskName;
       this.todoCard.createDate = this.createDate;
       this.todoCard.description = this.description;
+      this.todoCard.userName = this.userName;
       this.todoCard.status = this.status;
 
       if (this.id == 0) {
@@ -109,12 +110,13 @@ export class TodolistComponent implements OnInit, OnDestroy {
     }
   }
 
-  public addToArchive(id: number, taskName: string, createDate: string, description: string) {
+  public addToArchive(id: number, taskName: string, createDate: string, description: string, userName: string) {
     this.todoCard = new TodoCard();
     this.todoCard.id = id;
     this.todoCard.taskName = taskName;
     this.todoCard.createDate = createDate;
     this.todoCard.description = description;
+    this.todoCard.userName = userName;
     this.todoCard.status = 3;
     this.updateTodoCard();
   }
