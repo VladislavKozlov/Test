@@ -7,6 +7,7 @@ import { TodoCardService } from './../../todo-card.service';
 import { UserService } from './../../user.service';
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import { DragulaService } from 'ng2-dragula';
 
 @Component({
   selector: 'app-todolist',
@@ -37,7 +38,6 @@ export class TodolistComponent implements OnInit, OnDestroy {
 
   @ViewChild("modal") public modal: NgbModalRef;
   @ViewChild('content') editModal: TemplateRef<any>;
-
   navStatus: boolean = false;
   subscription: Subscription;
   status: number = 0;
@@ -57,7 +57,10 @@ export class TodolistComponent implements OnInit, OnDestroy {
   searchValue: string = '';
 
   constructor(private todoCardService: TodoCardService, private modalService: NgbModal, public activeModal: NgbActiveModal,
-    private confirmationDialogService: ConfirmationDialogService, private userService: UserService, private router: Router) {
+    private confirmationDialogService: ConfirmationDialogService, private userService: UserService, private router: Router, private dragulaService: DragulaService) {
+    dragulaService.createGroup("DRAGULA_FACTS", {
+      removeOnSpill: true
+    });
   }
 
   public renderCards() {

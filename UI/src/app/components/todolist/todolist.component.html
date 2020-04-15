@@ -8,7 +8,7 @@
 </div>
 <div *ngIf="navStatus" class="container">
 	<div class="row">
-		<div class="col-md-4 border border-right-0 border-dark p-0 m-0" dragula="Spill">
+		<div class="col-md-4 border border-right-0 border-bottom-0 border-dark p-0 m-0">
 			<div class="card border border-top-0 border-right-0 border-left-0 border-dark rounded-0">
 				<div class="card-body">
 					<div>
@@ -16,33 +16,8 @@
 					</div>
 				</div>
 			</div>
-			<div *ngFor="let card of cardsTodo | filter:searchValue" class="card border border-dark p-1 m-1">
-				<div class="card-body">
-					<div class="row">
-						<div class="col-md-4">
-							<h5 class="card-title">{{card.taskName}}</h5>
-						</div>
-						<div class="date-time col-md-8">
-							<h5>{{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
-						</div>
-					</div>
-					<p class="card-text">{{card.description}}</p>
-					<div class="row">
-						<div class="col-md-8">
-							<img src="assets/img/edit.svg" class="icons cursor-pointer"
-								(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
-						</div>
-						<div class="col-6 col-md-4">
-							<img src="assets/img/delete.svg" class="icons cursor-pointer"
-								(click)="openConfirmationDialog(card.id)" />
-							<img src="assets/img/archive.svg" class="icons cursor-pointer"
-								(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
-		<div class="col-md-4 border border-right-0 border-dark p-0 m-0" dragula="Spill">
+		<div class="col-md-4 border border-right-0 border-bottom-0 border-dark p-0 m-0">
 			<div class="card border border-top-0 border-right-0 border-left-0 border-dark rounded-0">
 				<div class="card-body">
 					<div>
@@ -50,8 +25,21 @@
 					</div>
 				</div>
 			</div>
-			<div *ngFor="let card of cardsInProgress | filter:searchValue" class="card border border-dark p-1 m-1">
+		</div>
+		<div class="col-md-4 border border-bottom-0 border-dark p-0 m-0">
+			<div class="card border border-top-0 border-right-0 border-left-0 border-dark rounded-0">
 				<div class="card-body">
+					<div>
+						<h4 class="text-center">Done</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 border border-right-0 border-top-0 border-dark p-0 m-0" dragula="DRAGULA_FACTS">
+			<div *ngFor="let card of cardsTodo | filter:searchValue" class="card border border-dark p-1 m-1">
+				<div class="card-body todo-card">
 					<div class="row">
 						<div class="col-md-4">
 							<h5 class="card-title">{{card.taskName}}</h5>
@@ -76,16 +64,36 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4 border border-dark p-0 m-0" dragula="Spill">
-			<div class="card border border-top-0 border-right-0 border-left-0 border-dark rounded-0">
-				<div class="card-body">
-					<div>
-						<h4 class="text-center">Done</h4>
+		<div class="col-md-4 border border-right-0 border-top-0 border-dark p-0 m-0" dragula="DRAGULA_FACTS">
+			<div *ngFor="let card of cardsInProgress | filter:searchValue" class="card border border-dark p-1 m-1">
+				<div class="card-body todo-card">
+					<div class="row">
+						<div class="col-md-4">
+							<h5 class="card-title">{{card.taskName}}</h5>
+						</div>
+						<div class="date-time col-md-8">
+							<h5>{{card.createDate | date:'dd-MM-yyyy HH-mm'}}</h5>
+						</div>
+					</div>
+					<p class="card-text">{{card.description}}</p>
+					<div class="row">
+						<div class="col-md-8">
+							<img src="assets/img/edit.svg" class="icons cursor-pointer"
+								(click)="editTodoCard(card.id, card.taskName, card.createDate, card.description, card.status)" />
+						</div>
+						<div class="col-6 col-md-4">
+							<img src="assets/img/delete.svg" class="icons cursor-pointer"
+								(click)="openConfirmationDialog(card.id)" />
+							<img src="assets/img/archive.svg" class="icons cursor-pointer"
+								(click)="addToArchive(card.id, card.taskName, card.createDate, card.description)" />
+						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="col-md-4 border border-top-0 border-dark p-0 m-0" dragula="DRAGULA_FACTS">
 			<div *ngFor="let card of cardsDone | filter:searchValue" class="card border border-dark p-1 m-1">
-				<div class="card-body">
+				<div class="card-body todo-card">
 					<div class="row">
 						<div class="col-md-4">
 							<h5 class="card-title">{{card.taskName}}</h5>
