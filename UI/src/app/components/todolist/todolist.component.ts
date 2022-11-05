@@ -219,11 +219,15 @@ export class TodolistComponent implements OnInit, OnDestroy {
     else {
       this.router.navigate(['/login']);
     }
+    this.dragulaService.createGroup("DRAGULA_FACTS", {
+      removeOnSpill: true
+    });
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.navStatus = false;
+    this.dragulaService.destroy("DRAGULA_FACTS");
   }
 
   public valueChangeTaskName() {
