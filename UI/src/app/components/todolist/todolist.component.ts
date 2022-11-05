@@ -57,11 +57,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
   searchValue: string = '';
 
   constructor(private todoCardService: TodoCardService, private modalService: NgbModal, public activeModal: NgbActiveModal,
-    private confirmationDialogService: ConfirmationDialogService, private userService: UserService, private router: Router, private dragulaService: DragulaService) {
-    dragulaService.createGroup("DRAGULA_FACTS", {
-      removeOnSpill: true
-    });
-  }
+    private confirmationDialogService: ConfirmationDialogService, private userService: UserService, private router: Router, private dragulaService: DragulaService) { }
 
   public renderCards() {
     this.todoCardService.getAll().subscribe((data: Array<TodoCard>) => {

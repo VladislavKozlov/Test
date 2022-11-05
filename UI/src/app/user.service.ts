@@ -32,7 +32,7 @@ export class UserService extends BaseService {
     super();
     this.loggedIn = !!localStorage.getItem('auth_token');
     this._authNavStatusSource.next(this.loggedIn);
-    this.baseUrl = "http://k2vtodo.somee.com/api/account";
+    this.baseUrl = "http://localhost:59863/api/account";
   }
 
   getUserName() {
